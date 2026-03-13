@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinSmart — Teaching the Currency of Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD93D;
+    --orange: #FF6B35;
+    --green: #06D6A0;
+    --blue: #118AB2;
+    --purple: #7B2FBE;
+    --pink: #FF4D80;
+    --red: #EF233C;
+    --sky: #48CAE4;
+    --cream: #FFF9F0;
+    --dark: #1A1A2E;
+    --card-shadow: 0 8px 0px rgba(0,0,0,0.15);
+    --card-shadow-hover: 0 12px 0px rgba(0,0,0,0.18);
+    --radius: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+
+  .bg-blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: drift 12s ease-in-out infinite alternate; }
+  .blob-1 { width:500px;height:500px;background:var(--yellow);top:-100px;left:-100px;animation-delay:0s; }
+  .blob-2 { width:400px;height:400px;background:var(--green);top:20%;right:-80px;animation-delay:3s; }
+  .blob-3 { width:350px;height:350px;background:var(--sky);bottom:10%;left:20%;animation-delay:6s; }
+  .blob-4 { width:300px;height:300px;background:var(--pink);bottom:-80px;right:10%;animation-delay:1s; }
+  @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,30px) scale(1.08)} }
+
+  header { position:relative;z-index:10;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.75);backdrop-filter:blur(12px);border-bottom:3px solid var(--yellow); }
+  .logo { display:flex;align-items:center;gap:12px; }
+  .logo-icon { width:48px;height:48px;background:var(--yellow);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid var(--dark);box-shadow:4px 4px 0 var(--dark);transition:transform .2s,box-shadow .2s;cursor:pointer; }
+  .logo-icon:hover { transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--dark); }
+  .logo-text { font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;color:var(--dark);letter-spacing:-0.5px; }
+  .logo-text span { color:var(--orange); }
+  nav { display:flex;gap:10px;align-items:center; }
+  .nav-btn { padding:8px 18px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;border:2.5px solid var(--dark);transition:all .15s;text-decoration:none;display:inline-block; }
+  .nav-ghost { background:transparent;color:var(--dark); }
+  .nav-ghost:hover { background:var(--dark);color:white; }
+  .nav-solid { background:var(--orange);color:white;box-shadow:3px 3px 0 var(--dark); }
+  .nav-solid:hover { transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--dark); }
+
+  .hero { position:relative;z-index:5;text-align:center;padding:80px 40px 50px;max-width:900px;margin:0 auto; }
+  .hero-badge { display:inline-block;background:var(--yellow);border:2.5px solid var(--dark);border-radius:50px;padding:6px 18px;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;box-shadow:3px 3px 0 var(--dark);animation:popIn .5s cubic-bezier(.36,.07,.19,.97) .1s both; }
+  .hero h1 { font-family:'Baloo 2',cursive;font-size:clamp(40px,6vw,70px);font-weight:800;line-height:1.1;margin-bottom:20px;animation:slideUp .6s ease .2s both; }
+  .hl-y { color:var(--yellow);text-shadow:3px 3px 0 var(--dark);-webkit-text-stroke:2px var(--dark); }
+  .hl-g { color:var(--green);text-shadow:3px 3px 0 var(--dark);-webkit-text-stroke:2px var(--dark); }
+  .hero p { font-size:18px;color:#555;max-width:600px;margin:0 auto 36px;line-height:1.6;font-weight:600;animation:slideUp .6s ease .3s both; }
+  .hero-cta { display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:slideUp .6s ease .4s both; }
+  .btn { padding:15px 34px;border-radius:16px;font-family:'Baloo 2',cursive;font-weight:700;font-size:18px;border:3px solid var(--dark);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:8px; }
+  .btn-primary { background:var(--orange);color:white;box-shadow:5px 5px 0 var(--dark); }
+  .btn-primary:hover { transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--dark); }
+  .btn-secondary { background:white;color:var(--dark);box-shadow:5px 5px 0 var(--dark); }
+  .btn-secondary:hover { transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--dark); }
+  .btn-dark { background:var(--dark);color:white;box-shadow:5px 5px 0 rgba(0,0,0,0.3); }
+  .btn-dark:hover { transform:translate(-2px,-2px);box-shadow:7px 7px 0 rgba(0,0,0,0.35); }
+
+  .coins-row { display:flex;justify-content:center;gap:22px;margin:48px 0 0;flex-wrap:wrap;animation:slideUp .6s ease .5s both; }
+  .coin { width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;border:3px solid var(--dark);box-shadow:4px 4px 0 var(--dark);cursor:default;animation:coinBounce 2s ease-in-out infinite;transition:transform .15s; }
+  .coin:hover { transform:scale(1.15) rotate(10deg)!important; }
+  .coin:nth-child(1){background:var(--yellow);animation-delay:0s}
+  .coin:nth-child(2){background:var(--green);animation-delay:.3s}
+  .coin:nth-child(3){background:var(--sky);animation-delay:.6s}
+  .coin:nth-child(4){background:var(--pink);animation-delay:.9s}
+  .coin:nth-child(5){background:var(--orange);animation-delay:1.2s}
+  @keyframes coinBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+
+  .stats-row { position:relative;z-index:5;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;padding:0 40px 64px; }
+  .stat-card { background:white;border:2.5px solid var(--dark);border-radius:var(--radius);padding:24px 32px;text-align:center;box-shadow:var(--card-shadow);transition:all .2s;min-width:150px; }
+  .stat-card:hover { transform:translateY(-4px);box-shadow:var(--card-shadow-hover); }
+  .stat-num { font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;color:var(--orange);display:block; }
+  .stat-label { font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px; }
+
+  .section { position:relative;z-index:5;padding:60px 40px;max-width:1100px;margin:0 auto; }
+  .sec-title { font-family:'Baloo 2',cursive;font-size:36px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:12px; }
+  .sec-sub { color:#777;font-size:16px;font-weight:600;margin-bottom:40px; }
+
+  .grade-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px; }
+  .grade-card { background:white;border:3px solid var(--dark);border-radius:var(--radius);padding:28px 22px;cursor:pointer;transition:all .18s;box-shadow:var(--card-shadow);position:relative;overflow:hidden; }
+  .grade-card::before { content:'';position:absolute;top:0;left:0;right:0;height:6px;background:var(--a,var(--yellow)); }
+  .grade-card:hover { transform:translate(-3px,-5px);box-shadow:8px 13px 0 rgba(0,0,0,0.15); }
+  .grade-num { font-family:'Baloo 2',cursive;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--a,var(--yellow));margin-bottom:5px;display:flex;align-items:center;gap:6px; }
+  .grade-dot { width:9px;height:9px;border-radius:50%;background:var(--a,var(--yellow));border:2px solid var(--dark);display:inline-block; }
+  .grade-title { font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;margin-bottom:6px;line-height:1.2; }
+  .grade-theme { font-size:12px;color:#999;font-weight:600;margin-bottom:12px; }
+  .grade-tags { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px; }
+  .tag { padding:3px 9px;border-radius:50px;font-size:11px;font-weight:700;border:1.5px solid rgba(0,0,0,.1); }
+  .progress-wrap { background:#f0f0f0;border-radius:50px;height:7px;overflow:hidden;border:1.5px solid rgba(0,0,0,.06); }
+  .progress-fill { height:100%;border-radius:50px;background:var(--a,var(--yellow));width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1); }
+  .progress-lbl { font-size:10px;font-weight:700;color:#bbb;margin-top:4px; }
+
+  .games-section { background:var(--dark);color:white;padding:80px 40px;position:relative;z-index:5; }
+  .games-inner { max-width:1100px;margin:0 auto; }
+  .games-section .sec-title { color:white; }
+  .games-section .sec-sub { color:#aaa; }
+  .games-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px; }
+  .game-card { background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:26px;transition:all .2s;cursor:pointer;position:relative;overflow:hidden; }
+  .game-card:hover { border-color:rgba(255,255,255,.35);transform:translateY(-4px); }
+  .game-emoji { font-size:34px;margin-bottom:12px;display:block; }
+  .game-name { font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;margin-bottom:4px; }
+  .game-grade-tag { font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px; }
+  .game-desc { font-size:13px;color:#bbb;line-height:1.55; }
+  .skill-badge { display:inline-block;margin-top:12px;padding:3px 11px;border-radius:50px;font-size:11px;font-weight:700;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2); }
+
+  /* ─── DEMO SECTION ─── */
+  .demo-wrap { position:relative;z-index:5;padding:80px 40px;max-width:1100px;margin:0 auto; }
+  .demo-grid { display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:36px; }
+  .demo-panel { background:white;border:3px solid var(--dark);border-radius:24px;padding:32px;box-shadow:6px 6px 0 var(--dark); }
+  .demo-panel-title { font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;margin-bottom:8px; }
+  .demo-panel-desc { color:#888;font-size:14px;font-weight:600;line-height:1.55;margin-bottom:20px; }
+  .game-area { background:var(--cream);border:2.5px solid var(--dark);border-radius:18px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:16px;min-height:280px; }
+  .game-instruction { font-weight:800;font-size:14px;text-align:center; }
+  .items-pool { display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
+  .drag-item { background:white;border:2.5px solid var(--dark);border-radius:10px;padding:9px 13px;cursor:grab;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:3px 3px 0 var(--dark);user-select:none;transition:all .15s; }
+  .drag-item:hover { transform:translate(-1px,-2px);box-shadow:4px 5px 0 var(--dark); }
+  .drag-item.dragging { opacity:.45;cursor:grabbing; }
+  .zones-row { display:flex;gap:14px;width:100%; }
+  .drop-zone { flex:1;min-height:90px;border-radius:12px;border:2.5px dashed rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:10px;gap:7px;transition:all .2s; }
+  .drop-zone.need-z { border-color:var(--green);background:rgba(6,214,160,.05); }
+  .drop-zone.want-z { border-color:var(--pink);background:rgba(255,77,128,.05); }
+  .drop-zone.dz-over { transform:scale(1.03);border-style:solid; }
+  .zone-label { font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;display:flex;align-items:center;gap:5px; }
+  .dropped { background:white;border:2px solid var(--dark);border-radius:7px;padding:4px 9px;font-size:12px;font-weight:700;animation:popIn .3s cubic-bezier(.36,.07,.19,.97) both; }
+  .game-result { font-weight:800;font-size:14px;text-align:center;min-height:20px; }
+  .reset-btn { padding:9px 20px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:2.5px solid var(--dark);background:var(--yellow);cursor:pointer;box-shadow:3px 3px 0 var(--dark);transition:all .15s; }
+  .reset-btn:hover { transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--dark); }
+  .fb-pop { position:fixed;font-size:26px;font-weight:900;z-index:9999;pointer-events:none;animation:popIn .4s cubic-bezier(.36,.07,.19,.97) both, fadeOut .4s ease 1.2s forwards; }
+
+  /* ─── ATM ─── */
+  .atm-wrap { background:linear-gradient(145deg,#1a1a2e,#0d1b2a);border-radius:18px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px; }
+  .atm-card-visual { background:linear-gradient(135deg,#7B2FBE,#118AB2);border-radius:10px;padding:12px 16px;color:white;width:100%;font-size:12px;font-weight:700;border:2px solid rgba(255,255,255,.2); }
+  .atm-card-num { font-size:14px;letter-spacing:3px;margin-top:4px;font-family:'Courier New',monospace; }
+  .atm-screen { background:#0a2e1a;border-radius:12px;width:100%;padding:18px;border:3px solid #1a3a2a;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px; }
+  .atm-txt { color:#00ff88;font-family:'Courier New',monospace;font-size:14px;font-weight:bold;text-align:center;line-height:1.5; }
+  .atm-bal { color:#ffdd00;font-size:22px;font-family:'Courier New',monospace;font-weight:bold; }
+  .atm-kp { display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:100%; }
+  .atm-btn { background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:8px;color:white;font-weight:800;font-size:13px;padding:10px;cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif; }
+  .atm-btn:hover { background:rgba(255,255,255,.18);transform:scale(.97); }
+  .atm-btn-act { background:var(--green)!important;color:var(--dark)!important;border-color:var(--green)!important; }
+  .atm-btn-cancel { background:rgba(239,35,60,.15)!important;border-color:rgba(239,35,60,.4)!important;color:#ff6b6b!important; }
+
+  /* ─── BADGES ─── */
+  .badges-section { position:relative;z-index:5;background:linear-gradient(135deg,#7B2FBE 0%,#118AB2 100%);padding:80px 40px;color:white; }
+  .badges-inner { max-width:1100px;margin:0 auto; }
+  .badges-section .sec-title { color:white; }
+  .badges-section .sec-sub { color:#ddd; }
+  .badges-grid { display:flex;flex-wrap:wrap;gap:18px;margin-top:40px;justify-content:center; }
+  .badge-card { border:2px solid rgba(255,255,255,.25);border-radius:18px;padding:22px 18px;width:150px;text-align:center;transition:all .25s;cursor:pointer;backdrop-filter:blur(4px); }
+  .badge-name { font-size:12px;font-weight:800;line-height:1.3; }
+  .badge-icon { font-size:42px;display:block;margin-bottom:10px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.2)); }
+
+  /* ─── CTA ─── */
+  .cta-section { position:relative;z-index:5;padding:80px 40px;text-align:center;background:var(--yellow);border-top:3px solid var(--dark);border-bottom:3px solid var(--dark); }
+  .cta-section h2 { font-family:'Baloo 2',cursive;font-size:clamp(32px,5vw,52px);font-weight:800;margin-bottom:14px;-webkit-text-stroke:2px var(--dark); }
+  .cta-section p { font-size:17px;font-weight:600;color:#555;margin-bottom:36px; }
+  footer { position:relative;z-index:5;background:var(--dark);color:white;padding:40px;text-align:center; }
+  .footer-logo { font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;margin-bottom:10px; }
+  .footer-logo span { color:var(--yellow); }
+  footer p { color:#888;font-size:13px; }
+
+  @keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { 0%{opacity:0;transform:scale(.5)} 60%{transform:scale(1.15)} 100%{opacity:1;transform:scale(1)} }
+  @keyframes fadeOut { to{opacity:0} }
+
+  /* ─── GAME HUB ─── */
+  .game-tabs-wrap { overflow-x:auto; padding-bottom:4px; margin-bottom:24px; }
+  .game-tabs-wrap::-webkit-scrollbar { height:4px; }
+  .game-tabs-wrap::-webkit-scrollbar-thumb { background:var(--yellow); border-radius:4px; }
+  .game-tabs { display:flex; gap:8px; min-width:max-content; padding:4px 2px; }
+  .gtab { padding:9px 16px; border-radius:50px; border:2.5px solid var(--dark); background:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; cursor:pointer; transition:all .15s; box-shadow:3px 3px 0 var(--dark); display:flex; align-items:center; gap:6px; white-space:nowrap; color:var(--dark); }
+  .gtab span { font-size:10px; font-weight:700; color:#aaa; background:#f4f4f4; border-radius:20px; padding:2px 7px; }
+  .gtab:hover { transform:translate(-1px,-2px); box-shadow:4px 5px 0 var(--dark); }
+  .gtab.active { background:var(--dark); color:white; }
+  .gtab.active span { background:rgba(255,255,255,.15); color:rgba(255,255,255,.7); }
+  .gpanel { display:none; background:white; border:3px solid var(--dark); border-radius:24px; padding:32px; box-shadow:6px 6px 0 var(--dark); animation:slideUp .3s ease; }
+  .gpanel.active { display:block; }
+  .gp-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:8px; gap:12px; }
+  .gp-title { font-family:'Baloo 2',cursive; font-size:22px; font-weight:800; }
+  .gp-grade { font-size:12px; color:#aaa; font-weight:700; margin-top:3px; }
+  .gp-desc { color:#666; font-size:14px; font-weight:600; line-height:1.55; margin-bottom:20px; }
+  .budget-item-card { background:var(--cream); border:2.5px solid var(--dark); border-radius:12px; padding:10px 12px; }
+  .budget-item-card.included { border-color:var(--green); background:rgba(6,214,160,.07); }
+  .budget-item-toggle { width:100%; margin-top:7px; padding:6px; border-radius:8px; border:2px solid var(--dark); background:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:12px; cursor:pointer; transition:all .15s; }
+  .budget-item-toggle:hover { background:var(--yellow); }
+  .budget-item-toggle.on { background:var(--green); color:white; border-color:var(--green); }
+  .stock-row { display:flex; align-items:center; gap:8px; background:var(--cream); border:2.5px solid var(--dark); border-radius:12px; padding:10px 12px; }
+  .stock-chg { font-size:11px; font-weight:800; padding:3px 8px; border-radius:20px; }
+  .stock-chg.up { background:rgba(6,214,160,.15); color:var(--green); }
+  .stock-chg.dn { background:rgba(239,35,60,.12); color:var(--red); }
+  .stock-btns { display:flex; gap:5px; margin-left:auto; }
+  .stock-btn { padding:5px 10px; border-radius:8px; border:2px solid var(--dark); font-family:'Nunito',sans-serif; font-weight:800; font-size:12px; cursor:pointer; transition:all .15s; }
+  .stock-btn:hover { transform:scale(1.05); }
+  .stock-btn.buy { background:var(--green); color:white; border-color:var(--green); }
+  .stock-btn.sell { background:var(--red); color:white; border-color:var(--red); }
+  .biz-opt { padding:12px; border:2.5px solid var(--dark); border-radius:12px; background:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; cursor:pointer; transition:all .15s; text-align:left; box-shadow:3px 3px 0 var(--dark); line-height:1.4; }
+  .biz-opt:hover { transform:translate(-1px,-2px); box-shadow:4px 5px 0 var(--dark); }
+
+  /* ─── COURSE MODAL ─── */
+  .course-overlay { position:fixed;inset:0;z-index:1000;display:none; }
+  .course-overlay.open { display:flex; }
+  .course-backdrop { position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px); }
+  .course-modal {
+    position:relative;z-index:1;margin:auto;width:min(700px,96vw);max-height:90vh;
+    background:#FDF6EC;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 32px 80px rgba(0,0,0,.28);animation:modalIn .3s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes modalIn { from{opacity:0;transform:scale(.93) translateY(20px)} to{opacity:1;transform:none} }
+  .course-modal-nav {
+    display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;
+    background:white;border-bottom:2px solid rgba(0,0,0,.06);flex-shrink:0;
+  }
+  .course-close-btn {
+    width:36px;height:36px;border-radius:50%;border:2px solid #eee;background:white;
+    font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:all .15s;margin-left:auto;
+  }
+  .course-close-btn:hover { background:#fee;border-color:#fca5a5; }
+  .course-modal-body { overflow-y:auto;flex:1;padding:0; }
+  /* grade screen inside modal */
+  .crs-grade-hero { padding:1.5rem;display:flex;align-items:center;gap:1rem; }
+  .crs-grade-icon { width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0; }
+  .crs-grade-title { font-family:'Baloo 2',cursive;font-size:1.6rem;font-weight:800; }
+  .crs-grade-sub { color:#7A7A9A;font-size:.9rem;margin-top:.2rem; }
+  .crs-grade-badge { display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.05);border-radius:999px;padding:.3rem .9rem;font-size:.82rem;font-weight:700;color:#7A7A9A;margin-top:.4rem; }
+  .crs-modules { padding:0 1.4rem 2rem; }
+  .crs-section-title { font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;margin:1.2rem 0 .6rem;display:flex;align-items:center;gap:.5rem; }
+  .crs-module-row {
+    background:white;border-radius:14px;padding:.85rem 1.1rem;display:flex;align-items:center;gap:.9rem;
+    cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:.6rem;
+  }
+  .crs-module-row:hover { transform:translateX(3px);border-color:rgba(0,0,0,.08);box-shadow:0 4px 16px rgba(0,0,0,.1); }
+  .crs-module-num { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:white;flex-shrink:0; }
+  .crs-module-name { font-weight:700;font-size:.92rem; }
+  .crs-module-type { font-size:.76rem;color:#7A7A9A;margin-top:.12rem; }
+  .crs-module-done { font-size:1.1rem;margin-left:auto; }
+  /* lesson screen inside modal */
+  .crs-lesson { padding:1.5rem; }
+  .crs-lesson-prog { height:6px;background:rgba(0,0,0,.07);border-radius:999px;overflow:hidden;margin-bottom:.3rem; }
+  .crs-lesson-prog-fill { height:100%;border-radius:999px;background:linear-gradient(90deg,#FF7043,#F5C842);transition:width .4s; }
+  .crs-step-count { font-size:.78rem;color:#7A7A9A;font-weight:700;margin-bottom:1.2rem; }
+  /* lesson card */
+  .crs-card { background:white;border-radius:20px;padding:1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.09);animation:slideUp .3s ease; }
+  .crs-type-badge { display:inline-flex;align-items:center;gap:.4rem;border-radius:999px;padding:.28rem .85rem;font-size:.76rem;font-weight:700;margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.05em; }
+  .crs-card-title { font-family:'Baloo 2',cursive;font-size:1.45rem;font-weight:800;line-height:1.2;margin-bottom:.7rem; }
+  .crs-card-content { font-size:.95rem;line-height:1.75;color:#3A3A5C; }
+  .crs-visual { background:rgba(0,0,0,.03);border-radius:14px;padding:1.2rem;text-align:center;margin:1rem 0;font-size:3rem; }
+  .crs-key-points { margin:1rem 0;display:flex;flex-direction:column;gap:.55rem; }
+  .crs-key-pt { display:flex;align-items:flex-start;gap:.7rem;background:rgba(0,0,0,.025);border-radius:10px;padding:.65rem .9rem; }
+  .crs-key-icon { font-size:1.2rem;flex-shrink:0; }
+  .crs-key-text { font-size:.88rem;font-weight:600;line-height:1.5; }
+  /* quiz */
+  .crs-quiz-q { font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:700;margin-bottom:1rem;line-height:1.35; }
+  .crs-quiz-opts { display:flex;flex-direction:column;gap:.6rem; }
+  .crs-quiz-opt { padding:.8rem 1.1rem;border-radius:12px;border:2px solid #eaeaea;background:white;font-weight:700;font-size:.92rem;cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:.7rem; }
+  .crs-quiz-opt:hover:not(:disabled) { border-color:#FF7043;background:#FFF0EC;transform:translateX(3px); }
+  .crs-quiz-opt.correct { border-color:#06C98F;background:#E8FFF6;color:#065F46; }
+  .crs-quiz-opt.wrong { border-color:#EF4444;background:#FFF0F0;color:#991B1B; }
+  .crs-quiz-opt:disabled { cursor:default; }
+  .crs-opt-letter { width:26px;height:26px;border-radius:7px;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;flex-shrink:0; }
+  .crs-quiz-fb { border-radius:12px;padding:.9rem 1.1rem;margin-top:.9rem;font-weight:700;font-size:.92rem;display:none;align-items:center;gap:.65rem; }
+  .crs-quiz-fb.correct { background:#E8FFF6;color:#065F46;display:flex; }
+  .crs-quiz-fb.wrong { background:#FFF0F0;color:#991B1B;display:flex; }
+  /* dnd inside modal */
+  .crs-dnd-instr { font-size:.88rem;color:#7A7A9A;font-weight:600;margin-bottom:1rem;background:rgba(0,0,0,.03);border-radius:10px;padding:.65rem .9rem;display:flex;align-items:center;gap:.5rem; }
+  .crs-dnd-pool { display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.2rem;min-height:44px; }
+  .crs-dnd-item { padding:.45rem .9rem;border-radius:999px;background:white;border:2px solid #eaeaea;font-weight:700;font-size:.84rem;cursor:grab;transition:all .18s;user-select:none; }
+  .crs-dnd-item:hover { transform:scale(1.04);box-shadow:0 3px 10px rgba(0,0,0,.1); }
+  .crs-dnd-item.dragging { opacity:.35;cursor:grabbing; }
+  .crs-dnd-item.placed { display:none; }
+  .crs-dnd-zones { display:grid;gap:.7rem; }
+  .crs-dnd-zone { border:2.5px dashed #dcdcf0;border-radius:14px;padding:.9rem;min-height:72px;transition:all .2s; }
+  .crs-dnd-zone.drag-over { border-color:#FF7043;background:rgba(255,112,67,.04); }
+  .crs-dnd-zone-label { font-weight:800;font-size:.82rem;margin-bottom:.5rem; }
+  .crs-dnd-zone-items { display:flex;flex-wrap:wrap;gap:.45rem;min-height:30px; }
+  .crs-placed-item { padding:.35rem .75rem;border-radius:999px;font-weight:700;font-size:.8rem;cursor:pointer;border:2px solid transparent;transition:all .18s; }
+  .crs-placed-item:hover { opacity:.7; }
+  .crs-placed-item.correct-place { border-color:#06C98F;background:#E8FFF6;color:#065F46; }
+  .crs-placed-item.wrong-place { border-color:#EF4444;background:#FFF0F0;color:#991B1B; }
+  .crs-dnd-check { margin-top:1rem;padding:.7rem 1.8rem;background:linear-gradient(135deg,#FF7043,#FF4500);color:white;border:none;border-radius:999px;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s; }
+  .crs-dnd-check:hover { transform:scale(1.03);box-shadow:0 4px 14px rgba(255,112,67,.4); }
+  /* nav footer inside modal */
+  .crs-footer { display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;flex-wrap:wrap;gap:.7rem; }
+  .crs-btn-next { padding:.75rem 1.8rem;background:linear-gradient(135deg,#FF7043,#FF4500);color:white;border:none;border-radius:999px;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s; }
+  .crs-btn-next:hover { transform:translateY(-2px);box-shadow:0 5px 18px rgba(255,112,67,.4); }
+  .crs-btn-prev { padding:.75rem 1.4rem;background:white;border:2px solid #eaeaea;border-radius:999px;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .2s; }
+  .crs-btn-prev:hover { border-color:#FF7043;color:#FF7043; }
+  /* complete card */
+  .crs-complete { text-align:center;padding:1.5rem 1rem; }
+  .crs-complete-icon { font-size:4.5rem;display:block;margin-bottom:.8rem; }
+  .crs-complete-title { font-family:'Baloo 2',cursive;font-size:1.8rem;font-weight:800;margin-bottom:.5rem; }
+  .crs-complete-sub { color:#7A7A9A;font-size:.92rem;margin-bottom:1.2rem; }
+  .crs-xp-badge { display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #FED7AA;border-radius:999px;padding:.45rem 1.1rem;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;color:#C2410C;margin-bottom:1.2rem; }
+  /* sims inside modal — reuse existing classes */
+  .piggy-game { text-align:center;padding:.8rem 0; }
+  .piggy-emoji-big { font-size:6rem;cursor:pointer;display:inline-block;transition:transform .1s;user-select:none;filter:drop-shadow(0 6px 12px rgba(0,0,0,.1)); }
+  .piggy-emoji-big:active { transform:scale(.88) rotate(-8deg); }
+  .piggy-amount { font-family:'Baloo 2',cursive;font-size:2.4rem;font-weight:800;color:#FF7043; }
+  .piggy-goal-txt { color:#7A7A9A;font-size:.86rem;font-weight:600;margin-top:.2rem; }
+  .piggy-prog { height:10px;background:rgba(0,0,0,.07);border-radius:999px;overflow:hidden;margin:.7rem 0; }
+  .piggy-prog-fill { height:100%;border-radius:999px;background:linear-gradient(90deg,#06C98F,#3BBFFF);transition:width .5s; }
+  .coin-btns { display:flex;justify-content:center;gap:.45rem;flex-wrap:wrap;margin-top:.7rem; }
+  .coin-btn { padding:.45rem .9rem;border:none;border-radius:999px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#7A4500;font-weight:800;font-size:.84rem;cursor:pointer;box-shadow:0 3px 8px rgba(255,165,0,.3);transition:all .18s; }
+  .coin-btn:hover { transform:translateY(-2px) scale(1.05); }
+  /* atm inside modal */
+  .atm-body { background:linear-gradient(145deg,#1E2A4A,#131B35);padding:1.5rem;border-radius:14px; }
+  .atm-header-bar { display:flex;align-items:center;justify-content:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1rem; }
+  .atm-screen-panel { background:#0A1628;border:3px solid #1A56DB;border-radius:10px;min-height:130px;padding:1.2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;box-shadow:0 0 20px rgba(26,86,219,.25);margin-bottom:1rem; }
+  .atm-screen-line1 { color:#93C5FD;font-family:'Baloo 2',cursive;font-size:.95rem;margin-bottom:.3rem; }
+  .atm-screen-line2 { color:rgba(147,197,253,.6);font-size:.78rem; }
+  .atm-big-amount { color:#34D399;font-family:'Baloo 2',cursive;font-size:2rem;font-weight:800;margin:.4rem 0; }
+  .atm-step-progress { display:flex;gap:.35rem;justify-content:center;margin-bottom:.9rem; }
+  .atm-sdot { width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .3s; }
+  .atm-sdot.done { background:#34D399; }
+  .atm-sdot.cur { background:#3B82F6;transform:scale(1.4); }
+  .atm-btns { display:grid;grid-template-columns:1fr 1fr;gap:.6rem; }
+  .atm-action-btn { padding:.6rem;border-radius:9px;border:none;font-weight:700;font-size:.84rem;cursor:pointer;transition:all .18s; }
+  .atm-action-btn.blue { background:#1D4ED8;color:white; }
+  .atm-action-btn.dim { background:rgba(255,255,255,.08);color:rgba(255,255,255,.7); }
+  .atm-action-btn:hover { filter:brightness(1.15);transform:scale(1.03); }
+  .atm-slot { width:70px;height:5px;background:rgba(255,255,255,.1);border-radius:3px;margin:0 auto .9rem; }
+  /* stock game */
+  .stock-portfolio { background:linear-gradient(135deg,#1E2A4A,#131B35);border-radius:12px;padding:1rem;margin-bottom:.9rem;color:white; }
+  .stock-portfolio-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem; }
+  .stock-portfolio-label { color:rgba(255,255,255,.6);font-size:.76rem;font-weight:700; }
+  .stock-portfolio-val { font-family:'Baloo 2',cursive;font-size:1.6rem;font-weight:800;color:#34D399; }
+  .stock-list { display:flex;flex-direction:column;gap:.55rem; }
+  .stock-row { background:white;border-radius:10px;padding:.75rem .9rem;display:flex;align-items:center;justify-content:space-between; }
+  .stock-name { font-weight:800;font-size:.87rem; }
+  .stock-sector { font-size:.72rem;color:#7A7A9A; }
+  .stock-price { font-family:'Baloo 2',cursive;font-weight:800;font-size:.95rem; }
+  .stock-change { font-size:.75rem;font-weight:700;padding:.18rem .48rem;border-radius:999px; }
+  .stock-change.up { background:#DCFCE7;color:#065F46; }
+  .stock-change.down { background:#FEE2E2;color:#991B1B; }
+  .stock-btns { display:flex;gap:.35rem; }
+  .stock-buy-btn,.stock-sell-btn { padding:.3rem .65rem;border-radius:7px;border:none;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .18s; }
+  .stock-buy-btn { background:#1D4ED8;color:white; }
+  .stock-sell-btn { background:#EF4444;color:white; }
+  .stock-buy-btn:hover,.stock-sell-btn:hover { filter:brightness(1.1);transform:scale(1.05); }
+  /* budget inside modal */
+  .budget-income-bar { background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;border:2px solid #BBF7D0; }
+  .budget-income-label { font-weight:700;font-size:.87rem;color:#065F46; }
+  .budget-income-num { font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;color:#065F46; }
+  .budget-remaining { background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border-radius:12px;padding:.75rem 1.1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;border:2px solid #FED7AA; }
+  .budget-remaining.negative { background:linear-gradient(135deg,#FFF0F0,#FFE4E4);border-color:#FCA5A5; }
+  .budget-remaining-label { font-weight:700;font-size:.82rem;color:#9A3412; }
+  .budget-remaining-num { font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:800;color:#9A3412; }
+  .budget-items-grid { display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1rem; }
+  .budget-item-card { background:rgba(0,0,0,.025);border-radius:12px;padding:.75rem .9rem;border:2px solid #eaeaea; }
+  .budget-item-name { font-weight:700;font-size:.82rem;display:flex;align-items:center;gap:.4rem; }
+  .budget-item-cost { font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;color:#FF7043;margin-top:.2rem; }
+  .budget-item-toggle { width:100%;margin-top:.45rem;padding:.28rem;border-radius:7px;border:2px solid #eaeaea;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s;background:white; }
+  .budget-item-toggle.included { background:#F0FDF4;border-color:#06C98F;color:#065F46; }
+  .budget-item-toggle:hover { transform:scale(1.03); }
+  /* toast & float xp */
+  #crs-toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1C1C2E;color:white;padding:.65rem 1.4rem;border-radius:999px;font-weight:700;font-size:.88rem;z-index:2000;transition:all .3s;opacity:0;white-space:nowrap;pointer-events:none; }
+  #crs-toast.show { transform:translateX(-50%) translateY(0);opacity:1; }
+  .float-xp { position:fixed;pointer-events:none;z-index:1999;font-family:'Baloo 2',cursive;font-weight:800;font-size:1.3rem;color:#F5C842;text-shadow:0 2px 8px rgba(0,0,0,.25);animation:floatUp 1.2s ease forwards; }
+  @keyframes floatUp { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-70px)} }
+
+  ::-webkit-scrollbar { width:7px; }
+  ::-webkit-scrollbar-track { background:var(--cream); }
+  ::-webkit-scrollbar-thumb { background:var(--yellow);border-radius:4px; }
+
+  @media(max-width:768px){
+    header{padding:16px 20px;}
+    .hero{padding:60px 20px 40px;}
+    .demo-grid{grid-template-columns:1fr;}
+    .stats-row,.section,.demo-wrap,.roadmap-section,.curriculum-section{padding:40px 20px;}
+    .games-section,.badges-section,.cta-section{padding:60px 20px;}
+    .nav-ghost{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🪙</div>
+    <div class="logo-text">Fin<span>Smart</span></div>
+  </div>
+  <nav>
+    <a href="#grades" class="nav-btn nav-ghost">Grades</a>
+    <a href="#games" class="nav-btn nav-ghost">Games</a>
+    <a href="#demo" class="nav-btn nav-solid">Try a Game 🎮</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🏫 K–8 Interactive Financial Literacy Platform</div>
+  <h1>Teaching the <span class="hl-y">Currency</span><br>of <span class="hl-g">Life</span></h1>
+  <p>Hands-on games, real simulations, and age-appropriate lessons that turn abstract money concepts into lifelong skills — one grade at a time.</p>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="document.getElementById('grades').scrollIntoView({behavior:'smooth'})">Explore Grades 📚</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Try a Game 🎮</button>
+  </div>
+  <div class="coins-row">
+    <div class="coin">🪙</div>
+    <div class="coin">💵</div>
+    <div class="coin">💳</div>
+    <div class="coin">🏦</div>
+    <div class="coin">📈</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card"><span class="stat-num">8</span><span class="stat-label">Grade Levels</span></div>
+  <div class="stat-card"><span class="stat-num">24+</span><span class="stat-label">Drag & Drop Games</span></div>
+  <div class="stat-card"><span class="stat-num">9</span><span class="stat-label">Live Simulations</span></div>
+  <div class="stat-card"><span class="stat-num">50+</span><span class="stat-label">Concepts Covered</span></div>
+</div>
+
+<!-- GRADES -->
+<section class="section" id="grades">
+  <div class="sec-title">🎓 Grade-by-Grade Journey</div>
+  <p class="sec-sub">Each grade builds on the last — from coin recognition all the way to running your own business.</p>
+  <div class="grade-grid" id="gradeGrid"></div>
+</section>
+
+<!-- GAMES -->
+<section class="games-section" id="games">
+  <div class="games-inner">
+    <div class="sec-title">🎮 Simulations & Games</div>
+    <p class="sec-sub">Immersive environments where real financial learning happens through play.</p>
+    <div class="games-grid" id="gamesGrid"></div>
+  </div>
+</section>
+
+<!-- LIVE DEMO - FULL GAME HUB -->
+<section class="demo-wrap" id="demo">
+  <div class="sec-title">🕹️ Play All Games</div>
+  <p class="sec-sub">All 9 simulations + drag & drop games — pick a grade and jump right in!</p>
+
+  <!-- Game Tabs -->
+  <div class="game-tabs-wrap">
+    <div class="game-tabs" id="gameTabs">
+      <button class="gtab active" data-game="needwant">🛒 Need/Want<span>Gr.1</span></button>
+      <button class="gtab" data-game="piggy">🐷 Piggy Bank<span>Gr.1</span></button>
+      <button class="gtab" data-game="cornershop">🏪 Corner Store<span>Gr.2</span></button>
+      <button class="gtab" data-game="jarsplit">🏺 3-Jar Split<span>Gr.3</span></button>
+      <button class="gtab" data-game="savings">🚲 Savings Tracker<span>Gr.3</span></button>
+      <button class="gtab" data-game="banking">🔒 Safe Banking<span>Gr.4</span></button>
+      <button class="gtab" data-game="atm">🏧 ATM Sim<span>Gr.4</span></button>
+      <button class="gtab" data-game="budget">📊 Budget Planner<span>Gr.5</span></button>
+      <button class="gtab" data-game="insurance">🛡️ Insurance<span>Gr.6</span></button>
+      <button class="gtab" data-game="portfolio">📈 Stock Market<span>Gr.7</span></button>
+      <button class="gtab" data-game="business">🏢 My Business<span>Gr.8</span></button>
+    </div>
+  </div>
+
+  <!-- Game Panels -->
+  <div class="game-panels" id="gamePanels">
+
+    <!-- ① NEED OR WANT -->
+    <div class="gpanel active" id="gp-needwant">
+      <div class="gp-header">
+        <div>
+          <div class="gp-title">🛒 Need or Want?</div>
+          <div class="gp-grade">Grade 1 · Drag & Drop</div>
+        </div>
+        <button class="reset-btn" onclick="resetNeedWant()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">Drag each item into the correct basket. <strong>Needs</strong> keep you alive. <strong>Wants</strong> are extras!</div>
+      <div class="game-area">
+        <div class="game-instruction">Drag the items into the right basket 👇</div>
+        <div class="items-pool" id="nwPool"></div>
+        <div class="zones-row">
+          <div class="drop-zone need-z" id="nwNeed" ondragover="allowDrop(event)" ondrop="nwDrop(event,'need')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label">🥦 Need</div></div>
+          <div class="drop-zone want-z" id="nwWant" ondragover="allowDrop(event)" ondrop="nwDrop(event,'want')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label">🎮 Want</div></div>
+        </div>
+        <div class="game-result" id="nwResult"></div>
+      </div>
+    </div>
+
+    <!-- ② PIGGY BANK -->
+    <div class="gpanel" id="gp-piggy">
+      <div class="gp-header">
+        <div><div class="gp-title">🐷 My Piggy Bank</div><div class="gp-grade">Grade 1 · Simulation</div></div>
+        <button class="reset-btn" onclick="piggyReset()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">Tap the piggy or click coin buttons to save up! Goal: ₹100 🧸</div>
+      <div class="game-area" style="gap:14px">
+        <div id="piggyEmoji" style="font-size:80px;cursor:pointer;transition:transform .15s;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.15))" onclick="piggyAdd(1)">🐷</div>
+        <div style="font-family:'Baloo 2',cursive;font-size:42px;font-weight:800;color:var(--orange)" id="piggyAmt">₹0</div>
+        <div style="font-size:13px;font-weight:700;color:#888" id="piggyGoalTxt">Goal: ₹100</div>
+        <div style="width:100%;background:#eee;border-radius:50px;height:12px;border:2px solid var(--dark);overflow:hidden">
+          <div id="piggyBar" style="height:100%;width:0%;background:var(--green);border-radius:50px;transition:width .5s"></div>
+        </div>
+        <div class="items-pool">
+          <button class="drag-item" style="cursor:pointer;background:var(--yellow)" onclick="piggyAdd(1)">🪙 +₹1</button>
+          <button class="drag-item" style="cursor:pointer;background:var(--yellow)" onclick="piggyAdd(2)">🪙 +₹2</button>
+          <button class="drag-item" style="cursor:pointer;background:var(--yellow)" onclick="piggyAdd(5)">🪙 +₹5</button>
+          <button class="drag-item" style="cursor:pointer;background:var(--sky)" onclick="piggyAdd(10)">💵 +₹10</button>
+          <button class="drag-item" style="cursor:pointer;background:var(--sky)" onclick="piggyAdd(20)">💵 +₹20</button>
+        </div>
+        <div class="game-result" id="piggyResult"></div>
+      </div>
+    </div>
+
+    <!-- ③ CORNER STORE -->
+    <div class="gpanel" id="gp-cornershop">
+      <div class="gp-header">
+        <div><div class="gp-title">🏪 Corner Store</div><div class="gp-grade">Grade 2 · Simulation</div></div>
+        <button class="reset-btn" onclick="csReset()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">You have <strong>₹50</strong>. Buy items, stay in budget, and collect your change + receipt!</div>
+      <div class="game-area" style="gap:12px;align-items:stretch">
+        <div style="display:flex;justify-content:space-between;align-items:center;width:100%;background:white;border:2.5px solid var(--dark);border-radius:12px;padding:10px 14px;box-shadow:3px 3px 0 var(--dark)">
+          <span style="font-weight:800">💰 Budget: <span id="csBudget" style="color:var(--green)">₹50</span></span>
+          <span style="font-weight:800">🛒 Total: <span id="csTotal" style="color:var(--orange)">₹0</span></span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%" id="csGrid"></div>
+        <div id="csOver" style="color:var(--red);font-weight:800;font-size:13px;display:none">⚠️ Over budget! Remove items first.</div>
+        <button id="csBuyBtn" class="drag-item" style="cursor:pointer;background:var(--green);color:white;border-color:var(--dark);justify-content:center;display:none;width:100%" onclick="csBuy()">🛍️ Buy & Get Receipt</button>
+        <div id="csReceipt" style="display:none;width:100%;background:white;border:2.5px dashed var(--dark);border-radius:12px;padding:14px;font-size:13px"></div>
+      </div>
+    </div>
+
+    <!-- ④ 3-JAR SPLIT -->
+    <div class="gpanel" id="gp-jarsplit">
+      <div class="gp-header">
+        <div><div class="gp-title">🏺 3-Jar Split</div><div class="gp-grade">Grade 3 · Drag & Drop</div></div>
+        <button class="reset-btn" onclick="resetJar()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">You received <strong>₹100</strong>. Drag each note into the right jar: <strong>50% Spend · 40% Save · 10% Give</strong></div>
+      <div class="game-area">
+        <div class="items-pool" id="jarPool"></div>
+        <div class="zones-row" style="flex-wrap:wrap">
+          <div class="drop-zone" style="border-color:var(--orange);background:rgba(255,107,53,.06);min-width:100px" id="jarSpend" ondragover="allowDrop(event)" ondrop="jarDrop(event,'spend')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label" style="color:var(--orange)">💸 Spend<br><small style="font-size:10px;font-weight:700;color:#aaa">₹50</small></div></div>
+          <div class="drop-zone" style="border-color:var(--blue);background:rgba(17,138,178,.06);min-width:100px" id="jarSave" ondragover="allowDrop(event)" ondrop="jarDrop(event,'save')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label" style="color:var(--blue)">🏦 Save<br><small style="font-size:10px;font-weight:700;color:#aaa">₹40</small></div></div>
+          <div class="drop-zone" style="border-color:var(--pink);background:rgba(255,77,128,.06);min-width:100px" id="jarGive" ondragover="allowDrop(event)" ondrop="jarDrop(event,'give')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label" style="color:var(--pink)">❤️ Give<br><small style="font-size:10px;font-weight:700;color:#aaa">₹10</small></div></div>
+        </div>
+        <div class="game-result" id="jarResult"></div>
+      </div>
+    </div>
+
+    <!-- ⑤ SAVINGS TRACKER -->
+    <div class="gpanel" id="gp-savings">
+      <div class="gp-header">
+        <div><div class="gp-title">🚲 Savings Tracker</div><div class="gp-grade">Grade 3 · Simulation</div></div>
+        <button class="reset-btn" onclick="stReset()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">Set a savings goal and deposit ₹20 every week. Watch your progress bar grow toward your bicycle! 🚲</div>
+      <div class="game-area" style="gap:12px">
+        <div style="font-size:72px" id="stIcon">🚲</div>
+        <div style="font-family:'Baloo 2',cursive;font-size:38px;font-weight:800;color:var(--blue)" id="stAmt">₹0</div>
+        <div style="font-size:12px;font-weight:700;color:#aaa">Goal: ₹400 — <span id="stWeeks">Week 0 of 20</span></div>
+        <div style="width:100%;background:#eee;border-radius:50px;height:14px;border:2px solid var(--dark);overflow:hidden">
+          <div id="stBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--sky),var(--blue));border-radius:50px;transition:width .5s"></div>
+        </div>
+        <button class="drag-item" style="cursor:pointer;background:var(--sky);border-color:var(--dark);justify-content:center" onclick="stDeposit()">💰 Deposit Weekly ₹20</button>
+        <div class="game-result" id="stResult"></div>
+      </div>
+    </div>
+
+    <!-- ⑥ SAFE BANKING -->
+    <div class="gpanel" id="gp-banking">
+      <div class="gp-header">
+        <div><div class="gp-title">🔒 Safe or Unsafe Banking?</div><div class="gp-grade">Grade 4 · Drag & Drop</div></div>
+        <button class="reset-btn" onclick="resetBanking()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">Drag each action into the correct category — protect your money from fraud!</div>
+      <div class="game-area">
+        <div class="items-pool" id="bankPool"></div>
+        <div class="zones-row">
+          <div class="drop-zone" style="border-color:var(--green);background:rgba(6,214,160,.06)" id="bankSafe" ondragover="allowDrop(event)" ondrop="bankDrop(event,'safe')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label" style="color:var(--green)">✅ Safe Banking</div></div>
+          <div class="drop-zone" style="border-color:var(--red);background:rgba(239,35,60,.06)" id="bankRisk" ondragover="allowDrop(event)" ondrop="bankDrop(event,'risk')" ondragenter="dzEnter(event)" ondragleave="dzLeave(event)"><div class="zone-label" style="color:var(--red)">⚠️ Risky!</div></div>
+        </div>
+        <div class="game-result" id="bankResult"></div>
+      </div>
+    </div>
+
+    <!-- ⑦ ATM SIMULATOR -->
+    <div class="gpanel" id="gp-atm">
+      <div class="gp-header">
+        <div><div class="gp-title">🏧 ATM Simulator</div><div class="gp-grade">Grade 4 · Simulation</div></div>
+        <button class="reset-btn" onclick="renderATM(0)">↩ Restart</button>
+      </div>
+      <div class="gp-desc">Walk through a real ATM transaction step by step — including a fraud awareness moment!</div>
+      <div class="atm-wrap">
+        <div class="atm-card-visual">
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span>FinSmart Bank</span><span style="opacity:.7;font-size:10px;">VISA</span></div>
+          <div class="atm-card-num">**** **** **** 4821</div>
+          <div style="margin-top:5px;font-size:10px;opacity:.7;">PRIYA SHARMA</div>
+        </div>
+        <div class="atm-screen">
+          <div class="atm-txt" id="atmTxt">Welcome to FinSmart ATM<br>Press "Insert Card" to begin</div>
+          <div class="atm-bal" id="atmBal" style="display:none"></div>
+        </div>
+        <div class="atm-kp" id="atmKp"></div>
+      </div>
+    </div>
+
+    <!-- ⑧ BUDGET PLANNER -->
+    <div class="gpanel" id="gp-budget">
+      <div class="gp-header">
+        <div><div class="gp-title">📊 Family Budget Planner</div><div class="gp-grade">Grade 5 · Simulation</div></div>
+        <button class="reset-btn" onclick="budgetReset()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">Monthly income: <strong>₹10,000</strong>. Toggle optional expenses. Keep a surplus!</div>
+      <div class="game-area" style="align-items:stretch;gap:10px">
+        <div style="display:flex;justify-content:space-between;width:100%;background:white;border:2.5px solid var(--dark);border-radius:12px;padding:10px 14px;box-shadow:3px 3px 0 var(--dark)">
+          <span style="font-weight:800">💰 Income: <span style="color:var(--green)">₹10,000</span></span>
+          <span style="font-weight:800">Remaining: <span id="budgetRem" style="color:var(--green)">₹10,000</span></span>
+        </div>
+        <div id="budgetItems" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%"></div>
+        <div id="budgetMsg" style="width:100%;font-weight:800;font-size:13px;text-align:center;padding:10px;border-radius:10px;display:none"></div>
+      </div>
+    </div>
+
+    <!-- ⑨ INSURANCE -->
+    <div class="gpanel" id="gp-insurance">
+      <div class="gp-header">
+        <div><div class="gp-title">🛡️ Insurance Office</div><div class="gp-grade">Grade 6 · Simulation</div></div>
+        <button class="reset-btn" onclick="insReset()">↩ New Event</button>
+      </div>
+      <div class="gp-desc">A random life event strikes! Decide — claim your insurance or pay out of pocket?</div>
+      <div class="game-area" style="gap:14px">
+        <div id="insEventBox" style="width:100%;background:white;border:2.5px solid var(--dark);border-radius:14px;padding:18px;text-align:center;box-shadow:4px 4px 0 var(--dark)"></div>
+        <div style="display:flex;gap:10px;width:100%">
+          <button class="drag-item" style="flex:1;cursor:pointer;background:var(--green);color:white;justify-content:center;border-color:var(--dark)" onclick="insClaim(true)">🛡️ Claim Insurance</button>
+          <button class="drag-item" style="flex:1;cursor:pointer;background:var(--red);color:white;justify-content:center;border-color:var(--dark)" onclick="insClaim(false)">💸 Pay Out of Pocket</button>
+        </div>
+        <div id="insResult" style="width:100%;display:none"></div>
+      </div>
+    </div>
+
+    <!-- ⑩ STOCK MARKET -->
+    <div class="gpanel" id="gp-portfolio">
+      <div class="gp-header">
+        <div><div class="gp-title">📈 Junior Stock Market</div><div class="gp-grade">Grade 7 · Simulation</div></div>
+        <button class="reset-btn" onclick="stockReset()">↩ Reset</button>
+      </div>
+      <div class="gp-desc">Start with <strong>₹5,000</strong>. Buy & sell stocks. Watch news events move prices — make a profit!</div>
+      <div class="game-area" style="align-items:stretch;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--dark);border-radius:12px;padding:10px 14px;color:white">
+          <div><div style="font-size:10px;opacity:.6;font-weight:700;letter-spacing:1px">CASH BALANCE</div><div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--green)" id="stockCash">₹5,000</div></div>
+          <div style="text-align:right"><div style="font-size:10px;opacity:.6;font-weight:700;letter-spacing:1px">PORTFOLIO VALUE</div><div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--yellow)" id="stockPortVal">₹0</div></div>
+        </div>
+        <div id="stockNews" style="display:none;width:100%;background:rgba(255,107,53,.1);border:2px solid var(--orange);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:700"></div>
+        <div id="stockList" style="display:flex;flex-direction:column;gap:8px;width:100%"></div>
+        <button class="reset-btn" onclick="stockNextMonth()" id="stockNextBtn">📅 Simulate Next Month →</button>
+        <div class="game-result" id="stockResult"></div>
+      </div>
+    </div>
+
+    <!-- ⑪ RUN MY BUSINESS -->
+    <div class="gpanel" id="gp-business">
+      <div class="gp-header">
+        <div><div class="gp-title">🏢 Run My Business</div><div class="gp-grade">Grade 8 · Simulation</div></div>
+        <button class="reset-btn" onclick="bizReset()">↩ Restart</button>
+      </div>
+      <div class="gp-desc">Start with <strong>₹20,000 seed money</strong>. Make smart business decisions over 6 rounds!</div>
+      <div class="game-area" style="align-items:stretch;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--dark);border-radius:12px;padding:10px 14px;color:white">
+          <div><div style="font-size:10px;opacity:.6;font-weight:700;letter-spacing:1px">ROUND</div><div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:800" id="bizRoundLbl">1 / 6</div></div>
+          <div style="text-align:right"><div style="font-size:10px;opacity:.6;font-weight:700;letter-spacing:1px">CASH</div><div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--green)" id="bizCashLbl">₹20,000</div></div>
+        </div>
+        <div id="bizQuestion" style="width:100%;background:white;border:2.5px solid var(--dark);border-radius:12px;padding:14px;font-weight:800;font-size:14px"></div>
+        <div id="bizOptions" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%"></div>
+        <div id="bizFeedback" style="display:none;width:100%;border-radius:10px;padding:12px;font-weight:800;font-size:13px"></div>
+      </div>
+    </div>
+
+  </div><!-- /game-panels -->
+</section>
+
+<!-- BADGES -->
+<section class="badges-section">
+  <div class="badges-inner">
+    <div class="sec-title">🏅 Earn Badges & XP</div>
+    <p class="sec-sub">Complete modules, win games, and unlock achievements as you advance through the grades.</p>
+    <div class="badges-grid" id="badgesGrid"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Start Learning? 🚀</h2>
+  <p>Join thousands of students building their financial future — one game at a time.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <button class="btn btn-dark">Get Started Free</button>
+    <button class="btn btn-secondary">For Teachers & Parents 👨‍🏫</button>
+  </div>
+</section>
+
+<footer>
+  <div style="margin-bottom:12px">
+    <div class="footer-logo">Fin<span>Smart</span> 🪙</div>
+  </div>
+  <p style="color:#ccc;font-size:14px;margin-bottom:6px">A Financial Literacy Initiative by <strong style="color:var(--yellow)">Codju Technologies</strong></p>
+  <p>Teaching the currency of life, one grade at a time . Made with ❤️ in India.</p>
+</footer>
+
+<!-- ═══ COURSE MODAL ═══ -->
+<div class="course-overlay" id="courseOverlay">
+  <div class="course-backdrop" onclick="closeCourseModal()"></div>
+  <div class="course-modal" id="courseModal">
+    <div class="course-modal-nav" id="courseNavBar">
+      <button class="crs-btn-prev" id="courseBackBtn" onclick="courseNavBack()">← Back</button>
+      <div id="courseNavTitle" style="font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;flex:1;text-align:center"></div>
+      <div class="xp-pill" style="font-size:.82rem;padding:.3rem .8rem">⭐ <span id="courseXP">0</span> XP</div>
+      <button class="course-close-btn" onclick="closeCourseModal()">✕</button>
+    </div>
+    <div class="course-modal-body" id="courseModalBody"></div>
+  </div>
+</div>
+
+<div id="crs-toast"></div>
+
+<script>
+// ─── TAB SWITCHER ─────────────────────────────────────────────────────────────
+document.getElementById('gameTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.gtab');
+  if (!tab) return;
+  document.querySelectorAll('.gtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.gpanel').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  const gid = 'gp-' + tab.dataset.game;
+  const panel = document.getElementById(gid);
+  if (panel) panel.classList.add('active');
+});
+
+// ─── GRADE DATA ───────────────────────────────────────────────────────────────
+const grades = [
+  { num:1, emoji:'🟢', title:'Money is Everywhere', theme:'Recognising money in daily life', a:'#FFD93D', tags:['Coins','Needs & Wants','Piggy Bank'] },
+  { num:2, emoji:'🟢', title:'Earning & Spending', theme:'Where money comes from & goes', a:'#06D6A0', tags:['Earning','Shopping','Change'] },
+  { num:3, emoji:'🟡', title:'Saving & Goals', theme:'Delayed gratification & goal-setting', a:'#48CAE4', tags:['3-Jar Method','Goals','Banks'] },
+  { num:4, emoji:'🟡', title:'Banking Basics', theme:'How banks work', a:'#FF6B35', tags:['ATM','Deposits','Safety'] },
+  { num:5, emoji:'🟠', title:'Budgeting & Planning', theme:'Planning money over time', a:'#7B2FBE', tags:['Budget','Interest','Expenses'] },
+  { num:6, emoji:'🟠', title:'Insurance & Risk', theme:'Protecting what you have', a:'#FF4D80', tags:['Risk','Premium','Claims'] },
+  { num:7, emoji:'🔴', title:'Investing & Shares', theme:'Making money work for you', a:'#118AB2', tags:['Stocks','Mutual Funds','Bull/Bear'] },
+  { num:8, emoji:'🔴', title:'Financial Systems', theme:'The big picture of the economy', a:'#EF233C', tags:['Taxes','UPI','Entrepreneurship'] },
+];
+
+const gg = document.getElementById('gradeGrid');
+grades.forEach(g => {
+  const c = document.createElement('div');
+  c.className = 'grade-card';
+  c.style.setProperty('--a', g.a);
+  c.innerHTML = `
+    <div class="grade-num"><span class="grade-dot"></span>Grade ${g.num}</div>
+    <div class="grade-title">${g.title}</div>
+    <div class="grade-theme">${g.emoji} ${g.theme}</div>
+    <div class="grade-tags">${g.tags.map(t=>`<span class="tag" style="background:${g.a}22;color:${g.a};border-color:${g.a}44;">${t}</span>`).join('')}</div>
+    <div class="progress-wrap"><div class="progress-fill"></div></div>
+    <div class="progress-lbl">Click to start</div>
+  `;
+  c.addEventListener('click', () => { openCourseGrade(g.num); });
+  gg.appendChild(c);
+});
+
+// ─── GAMES DATA ───────────────────────────────────────────────────────────────
+const sims = [
+  { e:'🐷', n:'My Piggy Bank', g:'Grade 1', d:'Tap coins to drop them in and watch your total grow — learn coin recognition through play.', s:'Coin recognition', c:'#FFD93D' },
+  { e:'🏪', n:'Corner Store', g:'Grade 2', d:'Buy items, receive change, and read a receipt in a friendly mini grocery store.', s:'Making change', c:'#06D6A0' },
+  { e:'🎯', n:'Savings Tracker', g:'Grade 3', d:'Set a savings goal, deposit weekly, and watch a progress bar fill towards your dream item.', s:'Goal-setting', c:'#48CAE4' },
+  { e:'🏧', n:'ATM Simulator', g:'Grade 4', d:'Full walkthrough: insert card → PIN → transaction → collect cash. Includes fraud scenarios.', s:'Banking workflow', c:'#FF6B35' },
+  { e:'👨‍👩‍👧', n:'Family Budget Planner', g:'Grade 5', d:"Manage a family's ₹10,000 monthly income across rent, food, school, and surprise expenses.", s:'Budgeting', c:'#7B2FBE' },
+  { e:'🛡️', n:'Insurance Office', g:'Grade 6', d:'Choose a character, face random life events, decide to claim or pay — see financial impact.', s:'Risk assessment', c:'#FF4D80' },
+  { e:'📈', n:'Junior Stock Market', g:'Grade 7', d:'Start with ₹5,000, buy/sell 6 stocks over 12 simulated months, track portfolio on a live graph.', s:'Investing', c:'#118AB2' },
+  { e:'💳', n:'Digital Wallet', g:'Grade 8', d:'Send UPI payments, manage a digital account, and survive a phishing scam attempt.', s:'Digital payments', c:'#06D6A0' },
+  { e:'🏢', n:'Run My Business', g:'Grade 8', d:'Launch with ₹20,000 seed money — make inventory, pricing, and marketing decisions over 6 rounds.', s:'Entrepreneurship', c:'#EF233C' },
+];
+
+const pg = document.getElementById('gamesGrid');
+const simGameMap = {
+  'My Piggy Bank':    {gradeId:1, simKind:'piggy'},
+  'Corner Store':     {gradeId:2, simKind:'corner-store'},
+  'Savings Tracker':  {gradeId:3, simKind:'savings-tracker'},
+  'ATM Simulator':    {gradeId:4, simKind:'atm'},
+  'Family Budget Planner': {gradeId:5, simKind:'budget'},
+  'Insurance Office': {gradeId:6, simKind:'insurance-sim'},
+  'Junior Stock Market': {gradeId:7, simKind:'stocks'},
+  'Run My Business':  {gradeId:8, simKind:'business'},
+};
+sims.forEach(s => {
+  const c = document.createElement('div');
+  c.className = 'game-card';
+  c.style.cursor = 'pointer';
+  c.innerHTML = `<span class="game-emoji">${s.e}</span><div class="game-name">${s.n}</div><div class="game-grade-tag">${s.g}</div><div class="game-desc">${s.d}</div><span class="skill-badge" style="color:${s.c}">${s.s}</span>`;
+  c.addEventListener('click', () => {
+    const mapping = simGameMap[s.n];
+    if (mapping) openCourseSimDirect(mapping.gradeId, mapping.simKind);
+    else openCourseGrade(parseInt(s.g.replace('Grade ','')));
+  });
+  pg.appendChild(c);
+});
+
+// shared helpers
+function allowDrop(e) { e.preventDefault(); }
+function dzEnter(e) { e.currentTarget.classList.add('dz-over'); }
+function dzLeave(e) { e.currentTarget.classList.remove('dz-over'); }
+function showFb(x, y, emoji) {
+  const el = document.createElement('div');
+  el.className = 'fb-pop'; el.textContent = emoji;
+  el.style.left = x+'px'; el.style.top = (y-20)+'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1800);
+}
+
+// ─── ① NEED OR WANT ───────────────────────────────────────────────────────────
+const nwItems = [
+  {id:'nw1',lbl:'🍎 Apple',cat:'need'},{id:'nw2',lbl:'🎮 Video Game',cat:'want'},
+  {id:'nw3',lbl:'🏠 Shelter',cat:'need'},{id:'nw4',lbl:'👟 New Sneakers',cat:'want'},
+  {id:'nw5',lbl:'💧 Water',cat:'need'},{id:'nw6',lbl:'🍫 Chocolate',cat:'want'},
+];
+let nwPlaced=0, nwScore=0;
+function resetNeedWant() {
+  const pool=document.getElementById('nwPool');
+  pool.innerHTML='';
+  document.getElementById('nwNeed').innerHTML='<div class="zone-label">🥦 Need</div>';
+  document.getElementById('nwWant').innerHTML='<div class="zone-label">🎮 Want</div>';
+  document.getElementById('nwResult').textContent='';
+  nwPlaced=0; nwScore=0;
+  nwItems.forEach(item => {
+    const el=document.createElement('div');
+    el.className='drag-item'; el.id=item.id; el.draggable=true; el.textContent=item.lbl;
+    el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain',e.target.id); el.classList.add('dragging'); setTimeout(()=>el.classList.remove('dragging'),0); });
+    pool.appendChild(el);
+  });
+}
+function nwDrop(e, zone) {
+  e.preventDefault(); e.currentTarget.classList.remove('dz-over');
+  const id=e.dataTransfer.getData('text/plain');
+  const el=document.getElementById(id); if(!el) return;
+  const correct=nwItems.find(i=>i.id===id).cat;
+  const isOk=correct===zone;
+  const d=document.createElement('div'); d.className='dropped';
+  d.textContent=el.textContent; d.style.borderColor=isOk?'var(--green)':'var(--red)';
+  e.currentTarget.appendChild(d); el.remove();
+  showFb(e.clientX,e.clientY,isOk?'✅':'❌');
+  if(isOk) nwScore++;
+  nwPlaced++;
+  if(nwPlaced===nwItems.length){
+    const r=document.getElementById('nwResult');
+    r.textContent=nwScore===nwItems.length?`🎉 Perfect! All ${nwScore} correct!`:`Got ${nwScore}/${nwItems.length} — try again!`;
+    r.style.color=nwScore===nwItems.length?'var(--green)':'var(--orange)';
+  }
+}
+resetNeedWant();
+
+// ─── ② PIGGY BANK ─────────────────────────────────────────────────────────────
+let piggyAmt=0;
+function piggyReset(){ piggyAmt=0; updatePiggy(); document.getElementById('piggyResult').textContent=''; }
+function piggyAdd(n){
+  if(piggyAmt>=100){ showFb(window.innerWidth/2,200,'🎊'); return; }
+  piggyAmt=Math.min(piggyAmt+n,100); updatePiggy();
+  showFb(window.innerWidth/2-30+Math.random()*60, 200, '🪙');
+}
+function updatePiggy(){
+  const emoji=document.getElementById('piggyEmoji');
+  document.getElementById('piggyAmt').textContent='₹'+piggyAmt;
+  document.getElementById('piggyBar').style.width=(piggyAmt)+'%';
+  emoji.style.transform='scale(0.85) rotate(-8deg)';
+  setTimeout(()=>emoji.style.transform='',200);
+  if(piggyAmt>=100){
+    document.getElementById('piggyGoalTxt').textContent='🎉 Goal reached! You did it!';
+    document.getElementById('piggyResult').textContent='🎊 Amazing saver! You saved ₹100!';
+    document.getElementById('piggyResult').style.color='var(--green)';
+    emoji.textContent='🎊'; setTimeout(()=>emoji.textContent='🐷',3000);
+  }
+}
+
+// ─── ③ CORNER STORE ───────────────────────────────────────────────────────────
+const csProducts=[
+  {id:'p1',name:'🍎 Apple',price:8},{id:'p2',name:'🍞 Bread',price:12},
+  {id:'p3',name:'🥛 Milk',price:20},{id:'p4',name:'🍫 Chocolate',price:15},
+  {id:'p5',name:'🧃 Juice',price:18},{id:'p6',name:'🥚 Eggs (6)',price:22},
+];
+let csCart={};
+function csReset(){ csCart={}; updateCS(); document.getElementById('csReceipt').style.display='none'; }
+function csToggle(id){ csCart[id]?delete csCart[id]:(csCart[id]=true); updateCS(); }
+function updateCS(){
+  const total=csProducts.filter(p=>csCart[p.id]).reduce((s,p)=>s+p.price,0);
+  const over=total>50;
+  document.getElementById('csTotal').textContent='₹'+total;
+  document.getElementById('csTotal').style.color=over?'var(--red)':'var(--orange)';
+  document.getElementById('csOver').style.display=over?'block':'none';
+  document.getElementById('csBuyBtn').style.display=(!over&&total>0)?'flex':'none';
+  const grid=document.getElementById('csGrid'); if(!grid) return;
+  grid.innerHTML=csProducts.map(p=>`
+    <div onclick="csToggle('${p.id}')" style="background:${csCart[p.id]?'rgba(6,214,160,.08)':'white'};border:2.5px solid ${csCart[p.id]?'var(--green)':'var(--dark)'};border-radius:12px;padding:10px 12px;cursor:pointer;transition:all .15s;box-shadow:3px 3px 0 var(--dark)">
+      <div style="font-weight:800;font-size:13px">${p.name}</div>
+      <div style="font-family:'Baloo 2',cursive;font-weight:800;color:var(--orange)">₹${p.price}</div>
+      <div style="font-size:18px;margin-top:3px">${csCart[p.id]?'✅':'➕'}</div>
+    </div>`).join('');
+}
+function csBuy(){
+  const bought=csProducts.filter(p=>csCart[p.id]);
+  const total=bought.reduce((s,p)=>s+p.price,0);
+  const change=50-total;
+  const rec=document.getElementById('csReceipt');
+  rec.style.display='block';
+  rec.innerHTML=`<div style="font-family:'Baloo 2',cursive;font-weight:800;text-align:center;margin-bottom:8px">🧾 RECEIPT</div>
+    ${bought.map(p=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-weight:700">${p.name}<span>₹${p.price}</span></div>`).join('')}
+    <div style="border-top:2px dashed #ccc;margin:8px 0"></div>
+    <div style="display:flex;justify-content:space-between;font-weight:800">Total<span>₹${total}</span></div>
+    <div style="display:flex;justify-content:space-between;font-weight:800;color:var(--green)">Change<span>₹${change}</span></div>
+    <div style="text-align:center;margin-top:8px;font-size:12px;color:#aaa">Thank you! Come again 🛍️</div>`;
+  document.getElementById('csBuyBtn').style.display='none';
+}
+csReset();
+
+// ─── ④ 3-JAR SPLIT ────────────────────────────────────────────────────────────
+const jarItems=[
+  {id:'j1',lbl:'₹50 note 💵',cat:'spend'},
+  {id:'j2',lbl:'₹20 note 💵',cat:'save'},
+  {id:'j3',lbl:'₹20 note 💵',cat:'save'},
+  {id:'j4',lbl:'₹10 note 💵',cat:'give'},
+];
+let jarPlaced=0, jarScore=0;
+function resetJar(){
+  const pool=document.getElementById('jarPool'); pool.innerHTML='';
+  ['jarSpend','jarSave','jarGive'].forEach(id=>{
+    const z=document.getElementById(id);
+    z.innerHTML=z.innerHTML.split('</div>')[0]+'</div>';
+  });
+  document.getElementById('jarSpend').innerHTML='<div class="zone-label" style="color:var(--orange)">💸 Spend<br><small style="font-size:10px;font-weight:700;color:#aaa">₹50</small></div>';
+  document.getElementById('jarSave').innerHTML='<div class="zone-label" style="color:var(--blue)">🏦 Save<br><small style="font-size:10px;font-weight:700;color:#aaa">₹40</small></div>';
+  document.getElementById('jarGive').innerHTML='<div class="zone-label" style="color:var(--pink)">❤️ Give<br><small style="font-size:10px;font-weight:700;color:#aaa">₹10</small></div>';
+  document.getElementById('jarResult').textContent='';
+  jarPlaced=0; jarScore=0;
+  jarItems.forEach(item=>{
+    const el=document.createElement('div');
+    el.className='drag-item'; el.id=item.id; el.draggable=true; el.textContent=item.lbl;
+    el.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain',e.target.id); el.classList.add('dragging'); setTimeout(()=>el.classList.remove('dragging'),0); });
+    pool.appendChild(el);
+  });
+}
+function jarDrop(e, zone){
+  e.preventDefault(); e.currentTarget.classList.remove('dz-over');
+  const id=e.dataTransfer.getData('text/plain');
+  const el=document.getElementById(id); if(!el) return;
+  const correct=jarItems.find(i=>i.id===id).cat;
+  const isOk=correct===zone;
+  const d=document.createElement('div'); d.className='dropped';
+  d.textContent=el.textContent; d.style.borderColor=isOk?'var(--green)':'var(--red)';
+  e.currentTarget.appendChild(d); el.remove();
+  showFb(e.clientX,e.clientY,isOk?'✅':'❌');
+  if(isOk) jarScore++;
+  jarPlaced++;
+  if(jarPlaced===jarItems.length){
+    const r=document.getElementById('jarResult');
+    r.textContent=jarScore===jarItems.length?'🎉 Perfect! The 3-Jar method mastered!':'Try again — some notes went into the wrong jars!';
+    r.style.color=jarScore===jarItems.length?'var(--green)':'var(--orange)';
+  }
+}
+resetJar();
+
+// ─── ⑤ SAVINGS TRACKER ────────────────────────────────────────────────────────
+let stAmt=0, stWeek=0;
+function stReset(){ stAmt=0; stWeek=0; updateST(); document.getElementById('stResult').textContent=''; document.getElementById('stIcon').textContent='🚲'; }
+function stDeposit(){
+  if(stAmt>=400){ showFb(window.innerWidth/2,200,'🎉'); return; }
+  stAmt=Math.min(stAmt+20,400); stWeek++;
+  updateST();
+}
+function updateST(){
+  document.getElementById('stAmt').textContent='₹'+stAmt;
+  document.getElementById('stBar').style.width=(stAmt/400*100)+'%';
+  document.getElementById('stWeeks').textContent='Week '+stWeek+' of 20';
+  if(stAmt>=400){
+    document.getElementById('stResult').textContent='🚲 You saved enough for the bicycle! Great job!';
+    document.getElementById('stResult').style.color='var(--green)';
+    document.getElementById('stIcon').textContent='🎊';
+  }
+}
+
+// ─── ⑥ SAFE BANKING ──────────────────────────────────────────────────────────
+const bankItems=[
+  {id:'b1',lbl:'🔐 Cover keypad at ATM',cat:'safe'},
+  {id:'b2',lbl:'📱 Share PIN on phone',cat:'risk'},
+  {id:'b3',lbl:'🚪 Use private ATM booth',cat:'safe'},
+  {id:'b4',lbl:'📋 Post account number online',cat:'risk'},
+  {id:'b5',lbl:'📞 Call bank if card stolen',cat:'safe'},
+  {id:'b6',lbl:'✏️ Write PIN on the card',cat:'risk'},
+];
+let bankPlaced=0, bankScore=0;
+function resetBanking(){
+  const pool=document.getElementById('bankPool'); pool.innerHTML='';
+  document.getElementById('bankSafe').innerHTML='<div class="zone-label" style="color:var(--green)">✅ Safe Banking</div>';
+  document.getElementById('bankRisk').innerHTML='<div class="zone-label" style="color:var(--red)">⚠️ Risky!</div>';
+  document.getElementById('bankResult').textContent='';
+  bankPlaced=0; bankScore=0;
+  bankItems.forEach(item=>{
+    const el=document.createElement('div');
+    el.className='drag-item'; el.id=item.id; el.draggable=true; el.textContent=item.lbl;
+    el.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain',e.target.id); el.classList.add('dragging'); setTimeout(()=>el.classList.remove('dragging'),0); });
+    pool.appendChild(el);
+  });
+}
+function bankDrop(e, zone){
+  e.preventDefault(); e.currentTarget.classList.remove('dz-over');
+  const id=e.dataTransfer.getData('text/plain');
+  const el=document.getElementById(id); if(!el) return;
+  const correct=bankItems.find(i=>i.id===id).cat;
+  const isOk=correct===zone;
+  const d=document.createElement('div'); d.className='dropped';
+  d.textContent=el.textContent; d.style.borderColor=isOk?'var(--green)':'var(--red)';
+  e.currentTarget.appendChild(d); el.remove();
+  showFb(e.clientX,e.clientY,isOk?'✅':'❌');
+  if(isOk) bankScore++;
+  bankPlaced++;
+  if(bankPlaced===bankItems.length){
+    const r=document.getElementById('bankResult');
+    r.textContent=bankScore===bankItems.length?'🔐 Perfect! You know how to bank safely!':'Try again — some actions put your money at risk!';
+    r.style.color=bankScore===bankItems.length?'var(--green)':'var(--orange)';
+  }
+}
+resetBanking();
+
+// ─── ⑦ ATM SIMULATOR ──────────────────────────────────────────────────────────
+let atmBal = 2450;
+let withdraw = 0;
+const steps = [
+  { txt:'Welcome to FinSmart ATM\nPress "Insert Card" to begin.', btns:[{l:'💳 Insert Card', n:1}], cancel:false },
+  { txt:'Card inserted ✓\nPlease enter your 4-digit PIN:', btns:[{l:'1️⃣2️⃣3️⃣4️⃣ Enter PIN', n:2}], cancel:true },
+  { txt:'PIN accepted ✓\nWhat would you like to do?', btns:[{l:'💵 Withdraw', n:3},{l:'📋 Check Balance', n:5}], cancel:true },
+  { txt:'Select withdrawal amount:', btns:[{l:'₹500', n:41},{l:'₹1,000', n:42},{l:'₹2,000', n:43}], cancel:true },
+  { txt:null, btns:[{l:'✅ Collect Cash & Done', n:6}], cancel:true },
+  { txt:null, btns:[{l:'↩ Go Back', n:2}], cancel:true },
+  { txt:'⚠️ SECURITY TIP:\nSomeone was watching your PIN!\nAlways shield the keypad next time. 🔐', btns:[{l:'✔ Got it! Exit', n:7}], cancel:false },
+  { txt:'Thank you for using FinSmart ATM!\n\n🔐 Never share your PIN with anyone.', btns:[{l:'🔁 Start Over', n:0}], cancel:false },
+];
+function renderATM(s) {
+  const step=steps[s];
+  const balEl=document.getElementById('atmBal');
+  const txtEl=document.getElementById('atmTxt');
+  if(s===4){ txtEl.innerHTML=`Dispensing ₹${withdraw}...<br>Please collect your cash 💵`; balEl.style.display='block'; balEl.textContent=`New Balance: ₹${atmBal-withdraw}`; }
+  else if(s===5){ txtEl.innerHTML='Your current balance:'; balEl.style.display='block'; balEl.textContent=`₹${atmBal}`; }
+  else { balEl.style.display='none'; txtEl.innerHTML=(step.txt||'').replace(/\n/g,'<br>'); }
+  const kp=document.getElementById('atmKp'); kp.innerHTML='';
+  kp.style.gridTemplateColumns=step.btns.length>=3?'repeat(3,1fr)':step.btns.length===2?'1fr 1fr':'1fr';
+  step.btns.forEach(b=>{
+    const btn=document.createElement('button'); btn.className='atm-btn atm-btn-act'; btn.textContent=b.l;
+    btn.onclick=()=>{ if(b.n===41){withdraw=500;renderATM(4);} else if(b.n===42){withdraw=1000;renderATM(4);} else if(b.n===43){withdraw=2000;renderATM(4);} else if(b.n===6){atmBal-=withdraw;withdraw=0;renderATM(6);} else renderATM(b.n); };
+    kp.appendChild(btn);
+  });
+  if(step.cancel){ const c=document.createElement('button'); c.className='atm-btn atm-btn-cancel'; c.textContent='✕ Cancel'; c.onclick=()=>{ withdraw=0; renderATM(0); }; kp.appendChild(c); }
+}
+renderATM(0);
+
+// ─── ⑧ BUDGET PLANNER ─────────────────────────────────────────────────────────
+const budgetData=[
+  {id:'rent',name:'🏠 Rent',cost:3500,required:true},
+  {id:'food',name:'🍎 Groceries',cost:2000,required:true},
+  {id:'school',name:'📚 School Fees',cost:1500,required:true},
+  {id:'elec',name:'💡 Electricity',cost:800,required:true},
+  {id:'fun',name:'🎮 Entertainment',cost:600,required:false},
+  {id:'clothes',name:'👕 New Clothes',cost:1200,required:false},
+  {id:'savings',name:'🏦 Savings',cost:700,required:false},
+  {id:'transport',name:'🚌 Transport',cost:500,required:false},
+];
+let budgetInc={};
+function budgetReset(){ budgetInc={}; budgetData.filter(b=>b.required).forEach(b=>budgetInc[b.id]=true); renderBudget(); }
+function toggleBudget(id){ if(budgetData.find(b=>b.id===id).required) return; budgetInc[id]?delete budgetInc[id]:(budgetInc[id]=true); renderBudget(); }
+function renderBudget(){
+  const total=budgetData.filter(b=>budgetInc[b.id]).reduce((s,b)=>s+b.cost,0);
+  const rem=10000-total;
+  document.getElementById('budgetRem').textContent=(rem<0?'-':'')+'₹'+Math.abs(rem).toLocaleString('en-IN');
+  document.getElementById('budgetRem').style.color=rem<0?'var(--red)':'var(--green)';
+  const grid=document.getElementById('budgetItems');
+  grid.innerHTML=budgetData.map(b=>{
+    const on=budgetInc[b.id];
+    return `<div class="budget-item-card ${on?'included':''}" onclick="toggleBudget('${b.id}')">
+      <div style="font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:space-between">${b.name}${b.required?'<span style="font-size:10px;background:rgba(17,138,178,.12);color:var(--blue);padding:2px 6px;border-radius:20px">Required</span>':''}</div>
+      <div style="font-family:'Baloo 2',cursive;font-weight:800;color:var(--orange)">₹${b.cost.toLocaleString('en-IN')}</div>
+      <button class="budget-item-toggle ${on?'on':''}" ${b.required?'disabled':''}>${b.required?'✅ Required':on?'✅ Included':'+ Include'}</button>
+    </div>`;
+  }).join('');
+  const msg=document.getElementById('budgetMsg');
+  msg.style.display='block';
+  if(rem>0){ msg.style.background='rgba(6,214,160,.12)'; msg.style.color='var(--green)'; msg.textContent='✅ Surplus ₹'+rem.toLocaleString('en-IN')+' — Great budgeting!'; }
+  else if(rem===0){ msg.style.background='rgba(255,217,61,.2)'; msg.style.color='#996600'; msg.textContent='⚖️ Perfectly balanced budget!'; }
+  else { msg.style.background='rgba(239,35,60,.1)'; msg.style.color='var(--red)'; msg.textContent='❌ Deficit ₹'+Math.abs(rem).toLocaleString('en-IN')+' — remove optional items!'; }
+}
+budgetReset();
+
+// ─── ⑨ INSURANCE ─────────────────────────────────────────────────────────────
+const insEvents=[
+  {icon:'🤒',desc:'You fall seriously ill and need surgery.',cost:45000,covered:40000,type:'Health'},
+  {icon:'🚗',desc:'Your car is hit by another vehicle.',cost:28000,covered:25000,type:'Vehicle'},
+  {icon:'🌊',desc:'Heavy rains flood your ground floor.',cost:60000,covered:52000,type:'Home'},
+  {icon:'🔥',desc:'A fire damages your kitchen.',cost:35000,covered:30000,type:'Home'},
+  {icon:'🦴',desc:'You break your leg playing sport.',cost:20000,covered:18000,type:'Health'},
+];
+let insCurrentEvent=null;
+function insReset(){
+  insCurrentEvent=insEvents[Math.floor(Math.random()*insEvents.length)];
+  const box=document.getElementById('insEventBox');
+  box.innerHTML=`<div style="font-size:52px">${insCurrentEvent.icon}</div>
+    <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;margin-top:8px">${insCurrentEvent.desc}</div>
+    <div style="margin-top:6px;font-size:13px;font-weight:700;color:#666">Insurance Type: ${insCurrentEvent.type}</div>
+    <div style="font-family:'Baloo 2',cursive;font-size:26px;font-weight:800;color:var(--red);margin-top:6px">Bill: ₹${insCurrentEvent.cost.toLocaleString('en-IN')}</div>`;
+  document.getElementById('insResult').style.display='none';
+}
+function insClaim(claimed){
+  const ev=insCurrentEvent; if(!ev) return;
+  const res=document.getElementById('insResult');
+  res.style.display='block';
+  if(claimed){
+    res.style.background='rgba(6,214,160,.1)'; res.style.border='2px solid var(--green)'; res.style.borderRadius='12px'; res.style.padding='14px';
+    res.innerHTML=`<div style="font-weight:800;color:var(--green)">✅ Smart choice!</div>
+      <div style="font-size:13px;font-weight:700;margin-top:6px;color:#333">Insurance covers <strong>₹${ev.covered.toLocaleString('en-IN')}</strong>.<br>You only pay: <strong>₹${(ev.cost-ev.covered).toLocaleString('en-IN')}</strong> (deductible).<br><span style="color:var(--green)">Insurance saved you ₹${ev.covered.toLocaleString('en-IN')}!</span></div>`;
+  } else {
+    res.style.background='rgba(239,35,60,.08)'; res.style.border='2px solid var(--red)'; res.style.borderRadius='12px'; res.style.padding='14px';
+    res.innerHTML=`<div style="font-weight:800;color:var(--red)">💸 Paid from savings!</div>
+      <div style="font-size:13px;font-weight:700;margin-top:6px;color:#333">You paid the full <strong>₹${ev.cost.toLocaleString('en-IN')}</strong>.<br>With insurance you'd have paid only <strong>₹${(ev.cost-ev.covered).toLocaleString('en-IN')}</strong>.<br><span style="color:var(--red)">Insurance would've saved ₹${ev.covered.toLocaleString('en-IN')}!</span></div>`;
+  }
+}
+insReset();
+
+// ─── ⑩ STOCK MARKET ───────────────────────────────────────────────────────────
+const stockData=[
+  {id:'tech',name:'TechCorp 💻',sector:'Technology',price:150,owned:0,baseChg:8},
+  {id:'dairy',name:'FreshDairy 🥛',sector:'Food & Beverage',price:80,owned:0,baseChg:-3},
+  {id:'bank',name:'SafeBank 🏦',sector:'Finance',price:200,owned:0,baseChg:4},
+  {id:'solar',name:'SolarPower ☀️',sector:'Energy',price:120,owned:0,baseChg:12},
+  {id:'retail',name:'QuickMart 🛒',sector:'Retail',price:60,owned:0,baseChg:-5},
+  {id:'pharma',name:'MedPlus 💊',sector:'Healthcare',price:175,owned:0,baseChg:6},
+];
+const stockNews=[
+  {txt:'📰 Tech sector booms! TechCorp sales up 30%.',affected:'tech',mult:2.5},
+  {txt:'📰 Dairy prices drop due to oversupply.',affected:'dairy',mult:-2},
+  {txt:'📰 Government boosts renewable energy subsidies.',affected:'solar',mult:3},
+  {txt:'📰 Retail slowdown as consumers cut spending.',affected:'retail',mult:-2},
+  {txt:'📰 New health policy increases pharma demand.',affected:'pharma',mult:2},
+  {txt:'📰 Interest rate hike — banks expected to profit.',affected:'bank',mult:2},
+];
+let stockCash=5000, stockMonth=0, stockNewsIdx=0;
+function stockReset(){
+  stockCash=5000; stockMonth=0; stockNewsIdx=0;
+  stockData.forEach(s=>{ s.owned=0; s.price=({tech:150,dairy:80,bank:200,solar:120,retail:60,pharma:175})[s.id]; });
+  document.getElementById('stockNews').style.display='none';
+  document.getElementById('stockResult').textContent='';
+  document.getElementById('stockNextBtn').disabled=false;
+  renderStocks();
+}
+function stockBuy(id){
+  const s=stockData.find(x=>x.id===id);
+  if(stockCash<s.price){ showFb(window.innerWidth/2,200,'❌'); return; }
+  stockCash-=s.price; s.owned++;
+  showFb(window.innerWidth/2,200,'📈');
+  renderStocks();
+}
+function stockSell(id){
+  const s=stockData.find(x=>x.id===id);
+  if(!s.owned){ showFb(window.innerWidth/2,200,'❌'); return; }
+  stockCash+=s.price; s.owned--;
+  showFb(window.innerWidth/2,200,'💵');
+  renderStocks();
+}
+function stockNextMonth(){
+  if(stockMonth>=6){ return; }
+  const news=stockNews[stockNewsIdx%stockNews.length];
+  stockNewsIdx++;
+  stockData.forEach(s=>{
+    const isAffected=s.id===news.affected;
+    const chg=isAffected?news.mult:s.baseChg/3+(Math.random()-0.5)*4;
+    s.price=Math.max(10,Math.round(s.price*(1+chg/100)));
+  });
+  stockMonth++;
+  document.getElementById('stockNews').style.display='block';
+  document.getElementById('stockNews').textContent=news.txt;
+  if(stockMonth>=6){
+    const portVal=stockData.reduce((s,x)=>s+x.owned*x.price,0);
+    const total=stockCash+portVal;
+    const gain=total-5000;
+    document.getElementById('stockResult').textContent=(gain>=0?'📈 Profit: +₹':'📉 Loss: ₹')+Math.abs(gain).toLocaleString('en-IN')+' after 6 months!';
+    document.getElementById('stockResult').style.color=gain>=0?'var(--green)':'var(--red)';
+    document.getElementById('stockNextBtn').disabled=true;
+  }
+  renderStocks();
+}
+function renderStocks(){
+  document.getElementById('stockCash').textContent='₹'+stockCash.toLocaleString('en-IN');
+  const portVal=stockData.reduce((s,x)=>s+x.owned*x.price,0);
+  document.getElementById('stockPortVal').textContent='₹'+portVal.toLocaleString('en-IN');
+  document.getElementById('stockList').innerHTML=stockData.map(s=>`
+    <div class="stock-row">
+      <div style="flex:1;min-width:0"><div style="font-weight:800;font-size:13px">${s.name}</div><div style="font-size:10px;color:#aaa;font-weight:700">${s.sector}</div></div>
+      <div style="text-align:right;margin-right:6px"><div style="font-family:'Baloo 2',cursive;font-weight:800">₹${s.price}</div><div class="stock-chg ${s.baseChg>=0?'up':'dn'}">${s.baseChg>=0?'▲':'▼'}${Math.abs(s.baseChg)}%</div></div>
+      <div style="font-size:11px;color:#aaa;font-weight:700">×${s.owned}</div>
+      <div class="stock-btns"><button class="stock-btn buy" onclick="stockBuy('${s.id}')">Buy</button><button class="stock-btn sell" onclick="stockSell('${s.id}')">Sell</button></div>
+    </div>`).join('');
+}
+stockReset();
+
+// ─── ⑪ RUN MY BUSINESS ────────────────────────────────────────────────────────
+const bizRounds=[
+  {q:'Month 1 — What will you sell?',opts:[{l:'🍕 Food items (high demand)',g:4000},{l:'👕 T-shirts (slow start)',g:2000}]},
+  {q:'Month 2 — Supplier offers a bulk discount. Buy in bulk?',opts:[{l:'✅ Buy bulk — save on costs',g:800},{l:'❌ Buy as needed — no savings',g:0}]},
+  {q:'Month 3 — Spend ₹2,000 on social media ads?',opts:[{l:'📣 Advertise! (₹2k cost, ₹5k revenue)',g:3000},{l:'🙅 Skip ads (stay safe)',g:800}]},
+  {q:'Month 4 — Hire an assistant for ₹3,000/month?',opts:[{l:'👷 Hire — handle more orders (+₹5k)',g:2000},{l:'🙋 Work alone — save ₹3k',g:3000}]},
+  {q:'Month 5 — Big order of ₹10,000 but need ₹4k loan at 12%.',opts:[{l:'💳 Take loan & fulfil order',g:5520},{l:'🙅 Decline — no risk',g:0}]},
+  {q:'Month 6 — Competitor cuts prices. Your move?',opts:[{l:'🔻 Match their price (retain customers)',g:8000},{l:'⭐ Focus on quality (keep loyal buyers)',g:6000}]},
+];
+let bizCash=20000, bizRound=0;
+function bizReset(){ bizCash=20000; bizRound=0; renderBiz(); document.getElementById('bizFeedback').style.display='none'; }
+function renderBiz(){
+  document.getElementById('bizRoundLbl').textContent=(bizRound+1)+' / 6';
+  document.getElementById('bizCashLbl').textContent='₹'+bizCash.toLocaleString('en-IN');
+  if(bizRound>=bizRounds.length){
+    const gain=bizCash-20000;
+    document.getElementById('bizQuestion').textContent='🏆 6 months complete!';
+    document.getElementById('bizOptions').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:12px"><div style="font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:${gain>=0?'var(--green)':'var(--red)'}">Final Cash: ₹${bizCash.toLocaleString('en-IN')}</div><div style="font-size:14px;font-weight:700;margin-top:6px;color:${gain>=0?'var(--green)':'var(--red)'}">${gain>=0?'🎉 Profit: +₹'+gain.toLocaleString('en-IN'):'📉 Loss: ₹'+Math.abs(gain).toLocaleString('en-IN')}</div></div>`;
+    return;
+  }
+  const r=bizRounds[bizRound];
+  document.getElementById('bizQuestion').textContent=r.q;
+  document.getElementById('bizOptions').innerHTML=r.opts.map((o,i)=>`<button class="biz-opt" onclick="bizChoose(${i})">${o.l}</button>`).join('');
+}
+function bizChoose(idx){
+  const r=bizRounds[bizRound]; const opt=r.opts[idx];
+  const fb=document.getElementById('bizFeedback');
+  bizCash+=opt.g; bizRound++;
+  fb.style.display='block';
+  fb.style.background=opt.g>0?'rgba(6,214,160,.1)':'rgba(239,35,60,.08)';
+  fb.style.color=opt.g>0?'var(--green)':'var(--orange)';
+  fb.textContent=opt.l+' → '+(opt.g>0?'+₹'+opt.g.toLocaleString('en-IN'):opt.g===0?'No gain this month':'₹'+opt.g.toLocaleString('en-IN'));
+  setTimeout(()=>{ fb.style.display='none'; renderBiz(); }, 1800);
+  document.getElementById('bizRoundLbl').textContent=(bizRound+1)+' / 6';
+  document.getElementById('bizCashLbl').textContent='₹'+bizCash.toLocaleString('en-IN');
+}
+bizReset();
+
+// ─── BADGES ───────────────────────────────────────────────────────────────────
+const badges = [
+  { e:'🪙', n:'Coin Counter',    color:'#FFD93D', glow:'rgba(255,217,61,.4)'  },
+  { e:'🛒', n:'Smart Shopper',   color:'#06D6A0', glow:'rgba(6,214,160,.4)'   },
+  { e:'🏦', n:'Bank Pro',        color:'#48CAE4', glow:'rgba(72,202,228,.4)'  },
+  { e:'📊', n:'Budget Boss',     color:'#FF6B35', glow:'rgba(255,107,53,.4)'  },
+  { e:'📈', n:'Market Maven',    color:'#A855F7', glow:'rgba(168,85,247,.5)'  },
+  { e:'🛡️', n:'Insurance Agent', color:'#FF4D80', glow:'rgba(255,77,128,.4)'  },
+  { e:'🚀', n:'Entrepreneur',    color:'#EF233C', glow:'rgba(239,35,60,.4)'   },
+  { e:'🌟', n:'FinSmart Legend', color:'#F5C542', glow:'rgba(245,197,66,.5)'  },
+];
+const bg = document.getElementById('badgesGrid');
+badges.forEach(b => {
+  const c = document.createElement('div');
+  c.className = 'badge-card';
+  c.style.cssText = `background:linear-gradient(145deg,${b.color}22,${b.color}11);border-color:${b.color}66;box-shadow:0 4px 20px ${b.glow};`;
+  c.innerHTML = `<span class="badge-icon">${b.e}</span><div class="badge-name" style="color:white">${b.n}</div>`;
+  c.addEventListener('mouseenter', () => { c.style.background=`linear-gradient(145deg,${b.color}55,${b.color}33)`; c.style.boxShadow=`0 8px 28px ${b.glow}`; c.style.borderColor=b.color; });
+  c.addEventListener('mouseleave', () => { c.style.background=`linear-gradient(145deg,${b.color}22,${b.color}11)`; c.style.boxShadow=`0 4px 20px ${b.glow}`; c.style.borderColor=`${b.color}66`; });
+  c.addEventListener('click', () => { c.style.animation = 'none'; setTimeout(()=>{ c.style.animation='popIn .4s cubic-bezier(.36,.07,.19,.97) both'; },10); });
+  bg.appendChild(c);
+});
+
+// ═══════════════════════════════════════════════════════
+// COURSE ENGINE — connects grade cards & sim cards to
+// the full lesson/game/sim flow from finsmart-app
+// ═══════════════════════════════════════════════════════
+
+// ── GRADE DATA ──
+const GRADES = [
+  {id:1,color:'#F5C842',bg:'#FFFAE8',emoji:'🪙',title:'Money is Everywhere',theme:'Recognising money in daily life',age:'Age ~6',tags:['Coins','Needs & Wants','Piggy Bank'],
+   modules:[
+    {type:'concept',name:'What is Money?',xp:20,steps:[
+      {kind:'info',title:'What is Money?',icon:'💰',content:'Money is something we use to buy things we need and want. It comes in two forms: <b>coins</b> (round metal pieces) and <b>notes</b> (paper rectangles).',
+       points:[{icon:'🪙',text:'Coins: ₹1, ₹2, ₹5, ₹10'},{icon:'💵',text:'Notes: ₹10, ₹50, ₹100, ₹500'},{icon:'🏪',text:'We give money to buy things at shops, markets, and online'}]},
+      {kind:'quiz',question:'Which of these is a COIN?',options:['₹500 note','₹2 round piece','Bank cheque','Credit card'],correct:1,explain:'A ₹2 round piece is a coin — made of metal and circular!'},
+      {kind:'quiz',question:'What do we use money for?',options:['Eating it','Playing with it','Buying things we need','Decorating walls'],correct:2,explain:'We use money to buy things we need and want — food, toys, clothes!'},
+    ]},
+    {type:'concept',name:'Needs vs Wants',xp:20,steps:[
+      {kind:'info',title:'Needs vs Wants',icon:'🛒',content:'Some things are <b>needs</b> — we must have them to survive. Other things are <b>wants</b> — we\'d like them but can live without.',
+       points:[{icon:'🍎',text:'NEEDS: Food, water, clothes, shelter, medicine'},{icon:'🎮',text:'WANTS: Toys, video games, candy, new shoes'},{icon:'💡',text:'Always take care of NEEDS before WANTS!'}]},
+      {kind:'quiz',question:'Which one is a NEED?',options:['Video game 🎮','New bicycle 🚲','Food 🍎','New toy 🧸'],correct:2,explain:'Food is a need — our bodies need it every day!'},
+    ]},
+    {type:'game',name:'Need or Want? Sort It!',xp:30,steps:[
+      {kind:'dnd',title:'Need or Want? Sort It!',instruction:'👆 Drag each item into the correct basket!',
+       items:[{id:'bread',label:'🍞 Bread',correct:'need'},{id:'toy',label:'🧸 Toy',correct:'want'},{id:'water',label:'💧 Water',correct:'need'},{id:'game',label:'🎮 Video Game',correct:'want'},{id:'medicine',label:'💊 Medicine',correct:'need'},{id:'candy',label:'🍬 Candy',correct:'want'}],
+       zones:[{id:'need',label:'✅ NEED',color:'#06C98F',bg:'rgba(6,201,143,0.06)'},{id:'want',label:'💛 WANT',color:'#F5C842',bg:'rgba(245,200,66,0.06)'}]},
+    ]},
+    {type:'sim',name:'🐷 My Piggy Bank',xp:25,steps:[{kind:'piggy',title:'My Piggy Bank'}]},
+  ]},
+  {id:2,color:'#06C98F',bg:'#E8FFF6',emoji:'💼',title:'Earning & Spending',theme:'Where money comes from',age:'Age ~7',tags:['Earning','Shopping','Change'],
+   modules:[
+    {type:'concept',name:'How People Earn Money',xp:20,steps:[
+      {kind:'info',title:'Earning Money',icon:'👷',content:'People earn money by doing <b>jobs</b> — work that helps others.',
+       points:[{icon:'👨‍⚕️',text:'A doctor earns by helping sick people'},{icon:'👩‍🍳',text:'A chef earns by cooking food'},{icon:'🧹',text:'You can earn by doing chores at home'}]},
+      {kind:'quiz',question:'How does a teacher earn money?',options:['By sleeping','By teaching students','By watching TV','By playing games'],correct:1,explain:'Teachers earn money by teaching students!'},
+    ]},
+    {type:'concept',name:'Spending & Receipts',xp:20,steps:[
+      {kind:'info',title:'Spending & Getting Change',icon:'🧾',content:'When you spend money, the shopkeeper gives you a <b>receipt</b> — a paper showing what you bought.',
+       points:[{icon:'💸',text:'Pay ₹20 for ₹15 item → get ₹5 change'},{icon:'🧾',text:'Receipt lists items, prices & total'},{icon:'✅',text:'Always check your change is correct!'}]},
+      {kind:'quiz',question:'You pay ₹50 for a book costing ₹35. Change?',options:['₹10','₹15','₹20','₹25'],correct:1,explain:'₹50 − ₹35 = ₹15 change!'},
+    ]},
+    {type:'game',name:'Budget Shopping Basket',xp:35,steps:[
+      {kind:'dnd',title:'Fill the Budget Basket!',instruction:'💰 You have ₹50. Drag items to your BASKET — don\'t go over budget!',
+       items:[{id:'apple',label:'🍎 Apple ₹8',correct:'basket'},{id:'bread2',label:'🍞 Bread ₹12',correct:'basket'},{id:'milk',label:'🥛 Milk ₹20',correct:'basket'},{id:'chips',label:'🍟 Chips ₹15',correct:'basket'},{id:'juice',label:'🧃 Juice ₹18',correct:'basket'}],
+       zones:[{id:'basket',label:'🛒 MY BASKET (Budget: ₹50)',color:'#3BBFFF',bg:'rgba(59,191,255,0.06)'},{id:'skip',label:'❌ LEAVE OUT',color:'#AAAAAA',bg:'rgba(0,0,0,0.03)'}]},
+    ]},
+    {type:'sim',name:'🏪 Corner Store',xp:25,steps:[{kind:'corner-store',title:'Corner Store'}]},
+  ]},
+  {id:3,color:'#3BBFFF',bg:'#E8F7FF',emoji:'🎯',title:'Saving & Goals',theme:'Delayed gratification & goal-setting',age:'Age ~8',tags:['3-Jar Method','Goals','Banks'],
+   modules:[
+    {type:'concept',name:'Why We Save',xp:20,steps:[
+      {kind:'info',title:'Why Saving is a Superpower',icon:'🦸',content:'Saving means keeping some money for later instead of spending it all now.',
+       points:[{icon:'🚲',text:'Save ₹20/week → buy a ₹400 bicycle in 20 weeks'},{icon:'⚡',text:'Emergency savings protect you from surprises'},{icon:'🧠',text:'Waiting for something makes it feel even better!'}]},
+      {kind:'quiz',question:'You get ₹100 pocket money. You save ₹30. How much can you spend?',options:['₹30','₹100','₹70','₹130'],correct:2,explain:'₹100 − ₹30 saved = ₹70 left to spend!'},
+    ]},
+    {type:'concept',name:'The 3-Jar Method',xp:20,steps:[
+      {kind:'info',title:'Spend, Save & Give 🏺',icon:'🏺',content:'Split your money into three jars every time you receive it!',
+       points:[{icon:'💸',text:'SPEND jar (50%): For everyday wants'},{icon:'🏦',text:'SAVE jar (40%): For bigger goals'},{icon:'❤️',text:'GIVE jar (10%): To help others'}]},
+      {kind:'quiz',question:'Using 3-Jar method with ₹100, how much goes in SAVE jar?',options:['₹10','₹50','₹40','₹30'],correct:2,explain:'40% of ₹100 = ₹40 in the Save jar!'},
+    ]},
+    {type:'game',name:'3-Jar Split Game',xp:35,steps:[
+      {kind:'dnd',title:'Split ₹100 into the 3 Jars!',instruction:'🏺 Drag each money note into the correct jar (Spend 50%, Save 40%, Give 10%)',
+       items:[{id:'note1',label:'₹50 note',correct:'spend'},{id:'note2',label:'₹20 note',correct:'save'},{id:'note3',label:'₹20 note (b)',correct:'save'},{id:'note4',label:'₹10 note',correct:'give'}],
+       zones:[{id:'spend',label:'💸 SPEND (₹50)',color:'#FF7043',bg:'rgba(255,112,67,0.06)'},{id:'save',label:'🏦 SAVE (₹40)',color:'#3BBFFF',bg:'rgba(59,191,255,0.06)'},{id:'give',label:'❤️ GIVE (₹10)',color:'#EC4899',bg:'rgba(236,72,153,0.06)'}]},
+    ]},
+    {type:'sim',name:'🚲 My Savings Tracker',xp:25,steps:[{kind:'savings-tracker',title:'Save for Your Bicycle!'}]},
+  ]},
+  {id:4,color:'#FF7043',bg:'#FFF0EC',emoji:'🏦',title:'Banking Basics',theme:'How banks work',age:'Age ~9',tags:['ATM','Deposits','Safety'],
+   modules:[
+    {type:'concept',name:'What is a Bank?',xp:20,steps:[
+      {kind:'info',title:'Banks: Your Money\'s Safe Home',icon:'🏦',content:'A bank is a safe place where you keep your money. Banks protect it and even pay you <b>interest</b>!',
+       points:[{icon:'🔒',text:'Your money is safe — protected by the government'},{icon:'📊',text:'A passbook/app shows deposits & withdrawals'},{icon:'💸',text:'Banks pay you interest — free money for keeping yours there'}]},
+      {kind:'quiz',question:'What is a DEPOSIT?',options:['Taking money out','Putting money into your account','Spending at a shop','Losing money'],correct:1,explain:'A deposit is when you PUT money into your bank account!'},
+    ]},
+    {type:'concept',name:'ATM & Bank Safety',xp:20,steps:[
+      {kind:'info',title:'ATM Safety Rules 🔒',icon:'🏧',content:'An ATM lets you get cash anytime. Follow safety rules to protect your money!',
+       points:[{icon:'🔐',text:'NEVER share your PIN with anyone'},{icon:'👀',text:'Cover the keypad when typing your PIN'},{icon:'❌',text:'If someone offers to "help" — say NO and leave'}]},
+      {kind:'quiz',question:'Someone at the ATM says they\'ll help you. What should you do?',options:['Accept help','Tell them PIN','Leave immediately','Wait for them'],correct:2,explain:'Always leave and use a different ATM. Real helpers are scammers!'},
+    ]},
+    {type:'game',name:'Safe or Unsafe Banking?',xp:35,steps:[
+      {kind:'dnd',title:'Safe or Unsafe Banking?',instruction:'🔒 Drag each action into the correct category!',
+       items:[{id:'s1',label:'🔐 Cover keypad at ATM',correct:'safe'},{id:'s2',label:'📱 Tell PIN on phone',correct:'unsafe'},{id:'s3',label:'🚪 Use private ATM booth',correct:'safe'},{id:'s4',label:'📋 Share account on social media',correct:'unsafe'},{id:'s5',label:'📞 Call bank if card stolen',correct:'safe'},{id:'s6',label:'🖊️ Write PIN on card',correct:'unsafe'}],
+       zones:[{id:'safe',label:'✅ SAFE BANKING',color:'#06C98F',bg:'rgba(6,201,143,0.06)'},{id:'unsafe',label:'⚠️ UNSAFE!',color:'#EF4444',bg:'rgba(239,68,68,0.06)'}]},
+    ]},
+    {type:'sim',name:'🏧 ATM Simulator',xp:30,steps:[{kind:'atm',title:'ATM Simulator'}]},
+  ]},
+  {id:5,color:'#A855F7',bg:'#F5EEFF',emoji:'📊',title:'Budgeting & Planning',theme:'Planning money over time',age:'Age ~10',tags:['Budget','Interest','Expenses'],
+   modules:[
+    {type:'concept',name:'Monthly Budgeting',xp:25,steps:[
+      {kind:'info',title:'What is a Budget?',icon:'📋',content:'A budget is a plan for how you\'ll use your money. List all <b>income</b> and <b>expenses</b>.',
+       points:[{icon:'💰',text:'INCOME: Salary, pocket money, selling things'},{icon:'🏠',text:'FIXED EXPENSES: Rent, school fees'},{icon:'🛒',text:'VARIABLE EXPENSES: Food, fun'},{icon:'✅',text:'SURPLUS: Income > expenses (great!)'},{icon:'❌',text:'DEFICIT: Expenses > income (problem!)'}]},
+      {kind:'quiz',question:'Income ₹5,000, expenses ₹4,200. You have a...',options:['Deficit of ₹800','Surplus of ₹800','Deficit of ₹4,200','Balanced budget'],correct:1,explain:'₹5,000 − ₹4,200 = ₹800 surplus!'},
+    ]},
+    {type:'concept',name:'Simple Interest',xp:25,steps:[
+      {kind:'info',title:'Simple Interest Explained',icon:'📈',content:'When you save, the bank pays you <b>interest</b>. Formula: <b>I = P × R × T ÷ 100</b>',
+       points:[{icon:'💵',text:'P = Principal (money you put in)'},{icon:'%',text:'R = Rate (% per year)'},{icon:'📅',text:'T = Time (in years)'},{icon:'✨',text:'₹1,000 × 5% × 2 yrs = ₹100 interest!'}]},
+      {kind:'quiz',question:'Principal ₹2,000, Rate 10%, Time 1 year. Interest = ?',options:['₹20','₹200','₹2,000','₹100'],correct:1,explain:'₹2,000 × 10 × 1 ÷ 100 = ₹200!'},
+    ]},
+    {type:'game',name:'Family Budget Builder',xp:40,steps:[
+      {kind:'budget',title:'Balance the Family Budget!',income:10000,
+       items:[{id:'rent',name:'🏠 Rent',cost:3500,essential:true},{id:'food',name:'🍎 Groceries',cost:2000,essential:true},{id:'school',name:'📚 School Fees',cost:1500,essential:true},{id:'electricity',name:'💡 Electricity',cost:800,essential:true},{id:'fun',name:'🎮 Entertainment',cost:600,essential:false},{id:'clothes',name:'👕 New Clothes',cost:1200,essential:false},{id:'savings',name:'🏦 Savings',cost:700,essential:false}]},
+    ]},
+    {type:'sim',name:'📊 Budget Planner',xp:30,steps:[{kind:'budget-sim',title:'Monthly Budget Planner'}]},
+  ]},
+  {id:6,color:'#EC4899',bg:'#FFF0F7',emoji:'🛡️',title:'Insurance & Risk',theme:'Protecting what you have',age:'Age ~11',tags:['Risk','Premium','Claims'],
+   modules:[
+    {type:'concept',name:'What is Risk & Insurance?',xp:25,steps:[
+      {kind:'info',title:'Insurance: A Safety Net 🛡️',icon:'🛡️',content:'<b>Insurance</b> is a safety net: pay a small premium regularly, and if something bad happens, the insurer covers the big cost.',
+       points:[{icon:'💊',text:'HEALTH insurance: Hospital & doctor bills'},{icon:'🚗',text:'VEHICLE insurance: Car accidents'},{icon:'🏠',text:'HOME insurance: Floods, fire, theft'},{icon:'💔',text:'LIFE insurance: Supports family'}]},
+      {kind:'quiz',question:'You pay ₹500/month. Hospital bill ₹40,000. Insurance pays ₹36,000. You pay:',options:['₹40,000','₹500','₹4,000','₹36,000'],correct:2,explain:'₹40,000 − ₹36,000 = ₹4,000 you pay. Insurance saved ₹36,000!'},
+    ]},
+    {type:'game',name:'Risk Matcher',xp:35,steps:[
+      {kind:'dnd',title:'Match Event to Insurance!',instruction:'🎯 Drag each risky event to the RIGHT type of insurance',
+       items:[{id:'r1',label:'🤒 Major illness',correct:'health'},{id:'r2',label:'🚗 Car crash',correct:'vehicle'},{id:'r3',label:'🔥 House fire',correct:'home'},{id:'r4',label:'🏥 Surgery needed',correct:'health'},{id:'r5',label:'🌊 Flood damage',correct:'home'},{id:'r6',label:'🚙 Car theft',correct:'vehicle'}],
+       zones:[{id:'health',label:'💊 HEALTH Insurance',color:'#EC4899',bg:'rgba(236,72,153,0.06)'},{id:'vehicle',label:'🚗 VEHICLE Insurance',color:'#A855F7',bg:'rgba(168,85,247,0.06)'},{id:'home',label:'🏠 HOME Insurance',color:'#FF7043',bg:'rgba(255,112,67,0.06)'}]},
+    ]},
+    {type:'sim',name:'🛡️ Insurance Office',xp:30,steps:[{kind:'insurance-sim',title:'The Insurance Office'}]},
+  ]},
+  {id:7,color:'#3BBFFF',bg:'#E8F7FF',emoji:'📈',title:'Investing & Shares',theme:'Making money work for you',age:'Age ~12–13',tags:['Stocks','Mutual Funds','Bull/Bear'],
+   modules:[
+    {type:'concept',name:'What is Investing?',xp:30,steps:[
+      {kind:'info',title:'Investing vs Saving',icon:'📈',content:'<b>Saving</b> keeps money safe with small interest. <b>Investing</b> puts money in businesses — more growth, more risk.',
+       points:[{icon:'🏦',text:'Saving: 3–5% growth/year, very safe'},{icon:'📊',text:'Stocks: 10–15% growth/year, some risk'},{icon:'⚖️',text:'Higher return = higher risk'},{icon:'⏰',text:'The longer you invest, the more it grows'}]},
+      {kind:'quiz',question:'A "Bull Market" means stock prices are...',options:['Falling fast','Rising and growing','Staying the same','Very risky'],correct:1,explain:'Bull Market = rising prices. Bulls charge forward!'},
+    ]},
+    {type:'concept',name:'Stocks & Mutual Funds',xp:30,steps:[
+      {kind:'info',title:'Owning a Piece of a Company',icon:'🏢',content:'A <b>stock</b> is a tiny piece of a company. A <b>mutual fund</b> pools money from many investors to buy multiple stocks.',
+       points:[{icon:'🍕',text:'Company = pizza; shares = slices you can buy'},{icon:'📉',text:'Company loses money → share value goes down'},{icon:'🗂️',text:'Mutual funds spread risk across many companies'},{icon:'🏛️',text:'Traded on BSE, NSE, NYSE'}]},
+      {kind:'quiz',question:'Why are Mutual Funds safer than single stocks?',options:['Never lose value','Spread money across many companies','No fees','Government guaranteed'],correct:1,explain:'Mutual funds diversify — if one fails, others can still do well!'},
+    ]},
+    {type:'game',name:'Portfolio Builder',xp:40,steps:[
+      {kind:'dnd',title:'Build Your Portfolio!',instruction:'⚖️ Drag stocks into LOW RISK or HIGH RISK categories!',
+       items:[{id:'p1',label:'🏦 Bank Stock',correct:'low'},{id:'p2',label:'🚀 Startup Tech',correct:'high'},{id:'p3',label:'🥛 Dairy Company',correct:'low'},{id:'p4',label:'🎰 New Crypto',correct:'high'},{id:'p5',label:'💊 Pharma Company',correct:'low'},{id:'p6',label:'🌱 New EV Startup',correct:'high'}],
+       zones:[{id:'low',label:'🛡️ LOW RISK',color:'#06C98F',bg:'rgba(6,201,143,0.06)'},{id:'high',label:'🚀 HIGH RISK / HIGH REWARD',color:'#EF4444',bg:'rgba(239,68,68,0.06)'}]},
+    ]},
+    {type:'sim',name:'📈 Junior Stock Market',xp:50,steps:[{kind:'stocks',title:'Junior Stock Market'}]},
+  ]},
+  {id:8,color:'#EF4444',bg:'#FFF0F0',emoji:'🌐',title:'Financial Systems',theme:'The big picture of the economy',age:'Age ~13–14',tags:['Taxes','UPI','Entrepreneurship'],
+   modules:[
+    {type:'concept',name:'How the Economy Works',xp:30,steps:[
+      {kind:'info',title:'The Circular Flow of Money 🔄',icon:'🌐',content:'The economy is like a giant machine — money flows between <b>households</b>, <b>businesses</b>, <b>government</b>, and <b>banks</b>.',
+       points:[{icon:'👨‍👩‍👧',text:'HOUSEHOLDS: Work for wages, pay taxes'},{icon:'🏢',text:'BUSINESSES: Hire workers, produce goods'},{icon:'🏛️',text:'GOVERNMENT: Collects taxes, builds infrastructure'},{icon:'🏦',text:'BANKS: Lend money, accept savings'}]},
+      {kind:'quiz',question:'What are TAXES?',options:['Fines for breaking rules','Mandatory payments to govt from income','Loans from a bank','Gifts from employers'],correct:1,explain:'Taxes fund schools, hospitals, roads and more!'},
+    ]},
+    {type:'concept',name:'Digital Payments & Credit',xp:30,steps:[
+      {kind:'info',title:'Digital Money & Credit Scores',icon:'💳',content:'Most payments are now digital. Your <b>credit score</b> is like a report card for how responsibly you borrow.',
+       points:[{icon:'📱',text:'UPI: Send money instantly with your phone'},{icon:'💳',text:'Credit card: Buy now, pay later (beware debt!)'},{icon:'⭐',text:'Good credit score (750+): Lower interest rates'},{icon:'⚠️',text:'Phishing: Scams that steal your payment details'}]},
+      {kind:'quiz',question:'A good credit score helps you...',options:['Avoid taxes','Get loans at better rates','Spend without limits','Open a govt job'],correct:1,explain:'High score = reliable borrower. Banks reward with lower interest!'},
+    ]},
+    {type:'game',name:'Tax Sorter',xp:40,steps:[
+      {kind:'dnd',title:'Sort Taxable vs Non-Taxable!',instruction:'🏛️ Drag each income type to the correct slab.',
+       items:[{id:'t1',label:'💰 Monthly salary ₹50k',correct:'taxable'},{id:'t2',label:'🎁 Gift from parents ₹10k',correct:'nontaxable'},{id:'t3',label:'🏘️ Rental income ₹15k/mo',correct:'taxable'},{id:'t4',label:'👨‍👧 Agricultural income',correct:'nontaxable'},{id:'t5',label:'📈 Stock market profits',correct:'taxable'},{id:'t6',label:'🏅 Govt sports award',correct:'nontaxable'}],
+       zones:[{id:'taxable',label:'🏛️ TAXABLE',color:'#EF4444',bg:'rgba(239,68,68,0.06)'},{id:'nontaxable',label:'✅ NON-TAXABLE',color:'#06C98F',bg:'rgba(6,201,143,0.06)'}]},
+    ]},
+    {type:'sim',name:'🏢 Run My Business',xp:50,steps:[{kind:'business',title:'Run My Business — 6 Round Challenge'}]},
+  ]},
+];
+
+// ── COURSE STATE ──
+let crsState = { xp:0, done:{}, currentGrade:null, currentModule:null, currentStep:0, quizAnswered:false, dndPlacements:{}, atmStep:0, piggyAmount:0, savingsAmount:0, portfolioVal:5000, budgetIncluded:{}, bizRound:0, bizCash:20000, screen:'grade' };
+let crsATMData = { step:0, balance:5000, steps:[
+  {msg:'Welcome to FinSmart Bank',sub:'Please insert your card',btns:[{l:'💳 Insert Card',a:'next',s:'blue'}]},
+  {msg:'Card inserted ✅',sub:'Enter your 4-digit PIN',btns:[{l:'🔢 Enter PIN: ****',a:'next',s:'blue'},{l:'❌ Cancel',a:'cancel',s:'dim'}]},
+  {msg:'PIN accepted ✅',sub:'What would you like to do?',btns:[{l:'💵 Withdraw Cash',a:'withdraw',s:'blue'},{l:'📊 Check Balance',a:'balance',s:'dim'}]},
+  {msg:'Select amount to withdraw:',sub:'',btns:[{l:'₹500',a:'w500',s:'dim'},{l:'₹1,000',a:'w1000',s:'blue'},{l:'₹2,000',a:'w2000',s:'dim'},{l:'◀ Back',a:'back',s:'dim'}]},
+  {msg:'',sub:'',btns:[{l:'🔄 New Transaction',a:'restart',s:'dim'},{l:'✅ Finish',a:'done',s:'blue'}]},
+]};
+let crsDraggedItem=null, crsSelectedItem=null;
+let crsStWeeks=0;
+const crsCsItems=[{id:'cs1',name:'🍎 Apple',price:8},{id:'cs2',name:'🍞 Bread',price:12},{id:'cs3',name:'🥛 Milk',price:20},{id:'cs4',name:'🍫 Chocolate',price:15},{id:'cs5',name:'🧃 Juice',price:18},{id:'cs6',name:'🥚 Eggs',price:22}];
+let crsCsBasket={};
+const crsInsEvents=[{icon:'🤒',desc:'You fall ill and need surgery.',cost:45000,covered:40000},{icon:'🚗',desc:'Your car is hit by another vehicle.',cost:28000,covered:25000},{icon:'🌊',desc:'Heavy rains flood your ground floor.',cost:60000,covered:52000}];
+let crsInsChosen=null;
+const crsBizDecisions=[
+  {round:1,q:'Month 1: Launch! What kind of products to sell?',opts:[{l:'🍕 Food items',e:'High demand! +₹4,000 revenue'},{l:'👕 T-Shirts',e:'Slow start. +₹2,000 revenue'}],gains:[4000,2000]},
+  {round:2,q:'Month 2: Supplier offers bulk discount. Buy in bulk?',opts:[{l:'Yes, buy bulk',e:'Smart! Saved ₹800 in costs'},{l:'No, buy as needed',e:'Safe choice. No savings.'}],gains:[800,0]},
+  {round:3,q:'Month 3: Spend ₹2,000 on social media ads?',opts:[{l:'Yes, advertise!',e:'Ads worked! +₹5,000 revenue'},{l:'No, save it',e:'No new customers. +₹1,000 only'}],gains:[3000,-2000]},
+  {round:4,q:'Month 4: Hire an assistant for ₹3,000/month?',opts:[{l:'Hire assistant',e:'More orders! Net gain +₹2,000'},{l:'Manage alone',e:'Overworked but saved ₹3,000'}],gains:[2000,3000]},
+  {round:5,q:'Month 5: Big order ₹10,000 needs ₹4,000 to fulfil.',opts:[{l:'Take loan at 12%',e:'Fulfilled order! Profit ₹6,000'},{l:'Decline the order',e:'No risk, missed ₹6,000'}],gains:[6000,0]},
+  {round:6,q:'Month 6: Competitor lowers prices. You?',opts:[{l:'Match their price',e:'Retained customers. ₹8,000'},{l:'Focus on quality',e:'Some stayed. ₹6,000'}],gains:[8000,6000]},
+];
+const crsStockList=[{id:'tech',name:'TechCorp',sector:'Technology',price:150,owned:0,change:+12},{id:'dairy',name:'FreshDairy',sector:'Food',price:80,owned:0,change:-5},{id:'bank',name:'SafeBank',sector:'Finance',price:200,owned:0,change:+3},{id:'energy',name:'SolarPower',sector:'Energy',price:120,owned:0,change:+18},{id:'retail',name:'QuickMart',sector:'Retail',price:60,owned:0,change:-8},{id:'pharma',name:'MedPlus',sector:'Healthcare',price:175,owned:0,change:+6}];
+
+// ── MODAL OPEN/CLOSE ──
+function openCourseGrade(id) {
+  crsState.currentGrade = id;
+  crsState.screen = 'grade';
+  document.getElementById('courseOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderCourseGrade();
+}
+function openCourseSimDirect(gradeId, simKind) {
+  const g = GRADES.find(x=>x.id===gradeId);
+  const mIdx = g.modules.findIndex(m=>m.steps && m.steps[0] && m.steps[0].kind===simKind);
+  if (mIdx>=0) {
+    crsState.currentGrade = gradeId;
+    crsState.currentModule = mIdx;
+    crsState.currentStep = 0;
+    crsState.screen = 'lesson';
+    document.getElementById('courseOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    renderCrsStep();
+  } else { openCourseGrade(gradeId); }
+}
+function closeCourseModal() {
+  document.getElementById('courseOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function courseNavBack() {
+  if (crsState.screen==='lesson') { crsState.screen='grade'; renderCourseGrade(); }
+  else closeCourseModal();
+}
+
+// ── GRADE SCREEN ──
+function renderCourseGrade() {
+  const g = GRADES.find(x=>x.id===crsState.currentGrade);
+  document.getElementById('courseNavTitle').textContent = `Grade ${g.id}: ${g.title}`;
+  document.getElementById('courseXP').textContent = crsState.xp;
+  document.getElementById('courseBackBtn').textContent = '← Close';
+  const concepts = g.modules.filter(m=>m.type==='concept');
+  const games = g.modules.filter(m=>m.type==='game');
+  const sims = g.modules.filter(m=>m.type==='sim');
+  document.getElementById('courseModalBody').innerHTML = `
+    <div class="crs-grade-hero">
+      <div class="crs-grade-icon" style="background:${g.bg}">${g.emoji}</div>
+      <div>
+        <div class="crs-grade-title">Grade ${g.id}: ${g.title}</div>
+        <div class="crs-grade-sub">${g.age}</div>
+        <div class="crs-grade-badge">🎯 ${g.theme}</div>
+      </div>
+    </div>
+    <div class="crs-modules">
+      <div class="crs-section-title">📖 Concepts</div>
+      ${renderModuleList(concepts, g)}
+      <div class="crs-section-title">🎮 Games</div>
+      ${renderModuleList(games, g)}
+      <div class="crs-section-title">🖥️ Simulations</div>
+      ${renderModuleList(sims, g)}
+    </div>`;
+}
+function renderModuleList(modules, g) {
+  if (!modules.length) return '<div style="color:#7A7A9A;font-size:.84rem;padding:.4rem .5rem">None for this grade</div>';
+  return modules.map(m => {
+    const globalIdx = g.modules.indexOf(m);
+    const done = (crsState.done[g.id]||{})[globalIdx];
+    const typeIcon = m.type==='concept'?'📖':m.type==='game'?'🎮':'🖥️';
+    const typeLabel = m.type==='concept'?'Lesson':m.type==='game'?'Drag & Drop Game':'Simulation';
+    return `<div class="crs-module-row" onclick="openCrsModule(${g.id},${globalIdx})">
+      <div class="crs-module-num" style="background:${done?'#06C98F':g.color}">${globalIdx+1}</div>
+      <div class="module-info">
+        <div class="crs-module-name">${m.name}</div>
+        <div class="crs-module-type">${typeIcon} ${typeLabel} · +${m.xp} XP</div>
+      </div>
+      <div class="crs-module-done">${done?'✅':'▶️'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── LESSON FLOW ──
+function openCrsModule(gradeId, moduleIdx) {
+  crsState.currentGrade = gradeId;
+  crsState.currentModule = moduleIdx;
+  crsState.currentStep = 0;
+  crsState.quizAnswered = false;
+  crsState.dndPlacements = {};
+  crsState.atmStep = 0;
+  crsState.screen = 'lesson';
+  renderCrsStep();
+}
+function renderCrsStep() {
+  const g = GRADES.find(x=>x.id===crsState.currentGrade);
+  const m = g.modules[crsState.currentModule];
+  const step = m.steps[crsState.currentStep];
+  const total = m.steps.length;
+  const prog = ((crsState.currentStep+1)/total)*100;
+  document.getElementById('courseNavTitle').textContent = m.name;
+  document.getElementById('courseXP').textContent = crsState.xp;
+  document.getElementById('courseBackBtn').textContent = '← Modules';
+  document.getElementById('courseModalBody').innerHTML = `
+    <div class="crs-lesson">
+      <div class="crs-lesson-prog"><div class="crs-lesson-prog-fill" style="width:${prog}%"></div></div>
+      <div class="crs-step-count">Step ${crsState.currentStep+1} of ${total}</div>
+      <div id="crs-card-container">${renderCrsCard(step, g, m)}</div>
+      <div class="crs-footer" id="crs-footer">${renderCrsFooter(step, total)}</div>
+    </div>`;
+  attachCrsListeners(step, g, m);
+}
+function renderCrsCard(step, g) {
+  if (step.kind==='info') return renderCrsInfo(step,g);
+  if (step.kind==='quiz') return renderCrsQuiz(step,g);
+  if (step.kind==='dnd') return renderCrsDnd(step,g);
+  if (step.kind==='piggy') return renderCrsPiggy();
+  if (step.kind==='atm') return renderCrsATM();
+  if (step.kind==='corner-store') return renderCrsCornerStore();
+  if (step.kind==='savings-tracker') return renderCrsSavings();
+  if (step.kind==='budget') return renderCrsBudget(step);
+  if (step.kind==='budget-sim') return renderCrsBudgetSim();
+  if (step.kind==='stocks') return renderCrsStocks();
+  if (step.kind==='insurance-sim') return renderCrsInsurance();
+  if (step.kind==='business') return renderCrsBusiness();
+  return '<div class="crs-card"><p>Coming soon!</p></div>';
+}
+function renderCrsFooter(step, total, canProceed=false) {
+  const noNext = step && (step.kind==='quiz'||step.kind==='dnd') && !canProceed;
+  const isSim = step && ['piggy','atm','corner-store','savings-tracker','budget','budget-sim','stocks','insurance-sim','business'].includes(step.kind);
+  const showPrev = crsState.currentStep > 0;
+  const g = GRADES.find(x=>x.id===crsState.currentGrade);
+  const m = g.modules[crsState.currentModule];
+  const isLast = crsState.currentStep === m.steps.length-1;
+  const nextLbl = isLast ? '🏆 Complete Module' : 'Next →';
+  return `${showPrev?`<button class="crs-btn-prev" onclick="crsPrev()">← Back</button>`:'<div></div>'}
+    ${(!noNext||isSim)?`<button class="crs-btn-next" onclick="crsNext()">${nextLbl}</button>`:'<div></div>'}`;
+}
+function crsNext() {
+  const g = GRADES.find(x=>x.id===crsState.currentGrade);
+  const m = g.modules[crsState.currentModule];
+  if (crsState.currentStep < m.steps.length-1) { crsState.currentStep++; crsState.quizAnswered=false; renderCrsStep(); }
+  else crsCompleteModule();
+}
+function crsPrev() {
+  if (crsState.currentStep>0) { crsState.currentStep--; crsState.quizAnswered=false; renderCrsStep(); }
+}
+function crsCompleteModule() {
+  if (!crsState.done[crsState.currentGrade]) crsState.done[crsState.currentGrade]={};
+  const already = crsState.done[crsState.currentGrade][crsState.currentModule];
+  const g = GRADES.find(x=>x.id===crsState.currentGrade);
+  const m = g.modules[crsState.currentModule];
+  const xpGain = already?0:m.xp;
+  crsState.done[crsState.currentGrade][crsState.currentModule]=true;
+  if (!already) { crsState.xp+=xpGain; crsSpawnXP('+'+xpGain+' XP'); }
+  document.getElementById('crs-card-container').innerHTML=`
+    <div class="crs-card crs-complete">
+      <span class="crs-complete-icon">🎉</span>
+      <div class="crs-complete-title">${m.name} Complete!</div>
+      <div class="crs-complete-sub">Great work! Keep going to level up.</div>
+      ${!already?`<div class="crs-xp-badge">⭐ +${xpGain} XP Earned!</div>`:''}
+    </div>`;
+  document.getElementById('crs-footer').innerHTML=`
+    <button class="crs-btn-prev" onclick="crsGoGrade()">← Back to Modules</button>
+    <button class="crs-btn-next" onclick="closeCourseModal()">✅ Done</button>`;
+  crsShowToast('🎉 Module complete! +'+(already?0:xpGain)+' XP');
+  document.getElementById('courseXP').textContent = crsState.xp;
+}
+function crsGoGrade() { crsState.screen='grade'; renderCourseGrade(); }
+
+// ── CARD RENDERERS ──
+function renderCrsInfo(step,g) {
+  const pts=(step.points||[]).map(p=>`<div class="crs-key-pt"><div class="crs-key-icon">${p.icon}</div><div class="crs-key-text">${p.text}</div></div>`).join('');
+  return `<div class="crs-card">
+    <div class="crs-type-badge" style="background:${g.bg};color:${g.color}">📖 Concept</div>
+    <div class="crs-card-title">${step.title}</div>
+    <div class="crs-visual">${step.icon}</div>
+    <div class="crs-card-content">${step.content}</div>
+    ${pts?`<div class="crs-key-points">${pts}</div>`:''}
+  </div>`;
+}
+function renderCrsQuiz(step,g) {
+  const opts=step.options.map((o,i)=>`<button class="crs-quiz-opt" data-idx="${i}" onclick="crsAnswerQuiz(${i},${step.correct},'${step.explain.replace(/'/g,"\\'")}')"><span class="crs-opt-letter">${['A','B','C','D'][i]}</span>${o}</button>`).join('');
+  return `<div class="crs-card">
+    <div class="crs-type-badge" style="background:${g.bg};color:${g.color}">❓ Quiz</div>
+    <div class="crs-quiz-q">${step.question}</div>
+    <div class="crs-quiz-opts" id="crs-quiz-opts">${opts}</div>
+    <div class="crs-quiz-fb" id="crs-quiz-fb"></div>
+  </div>`;
+}
+function crsAnswerQuiz(idx,correct,explain) {
+  if (crsState.quizAnswered) return;
+  crsState.quizAnswered=true;
+  document.querySelectorAll('.crs-quiz-opt').forEach(o=>o.disabled=true);
+  const fb=document.getElementById('crs-quiz-fb');
+  if (idx===correct) {
+    document.querySelectorAll('.crs-quiz-opt')[idx].classList.add('correct');
+    fb.className='crs-quiz-fb correct'; fb.innerHTML=`✅ <span>Correct! ${explain}</span>`; fb.style.display='flex';
+    crsSpawnXP('+10 XP'); crsState.xp+=10;
+  } else {
+    document.querySelectorAll('.crs-quiz-opt')[idx].classList.add('wrong');
+    document.querySelectorAll('.crs-quiz-opt')[correct].classList.add('correct');
+    fb.className='crs-quiz-fb wrong'; fb.innerHTML=`❌ <span>Not quite. ${explain}</span>`; fb.style.display='flex';
+  }
+  document.getElementById('crs-footer').innerHTML=renderCrsFooter(null,null,true);
+  document.getElementById('courseXP').textContent=crsState.xp;
+}
+function renderCrsDnd(step,g) {
+  const pool=step.items.map(it=>`<div class="crs-dnd-item" id="crs-item-${it.id}" draggable="true" ondragstart="crsDndDragStart('${it.id}')" onclick="crsDndClick('${it.id}')">${it.label}</div>`).join('');
+  const cols=step.zones.length===3?'1fr 1fr 1fr':'1fr 1fr';
+  const zones=step.zones.map(z=>`<div class="crs-dnd-zone" id="crs-zone-${z.id}" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="crsDndDrop('${z.id}',event)" style="background:${z.bg}"><div class="crs-dnd-zone-label" style="color:${z.color}">${z.label}</div><div class="crs-dnd-zone-items" id="crs-zone-items-${z.id}"></div></div>`).join('');
+  return `<div class="crs-card">
+    <div class="crs-type-badge" style="background:${g.bg};color:${g.color}">🎮 Drag & Drop</div>
+    <div class="crs-card-title">${step.title}</div>
+    <div class="crs-dnd-instr">ℹ️ ${step.instruction}</div>
+    <div class="crs-dnd-pool" id="crs-dnd-pool">${pool}</div>
+    <div class="crs-dnd-zones" style="grid-template-columns:${cols}">${zones}</div>
+    <button class="crs-dnd-check" onclick="crsCheckDnd()">✅ Check My Answers</button>
+    <div id="crs-dnd-result" style="margin-top:1rem;display:none"></div>
+  </div>`;
+}
+function crsDndDragStart(id) { crsDraggedItem=id; }
+function crsDndClick(id) {
+  const el=document.getElementById('crs-item-'+id);
+  if (crsSelectedItem===id) { el.style.outline='none'; crsSelectedItem=null; return; }
+  if (crsSelectedItem) document.getElementById('crs-item-'+crsSelectedItem).style.outline='none';
+  crsSelectedItem=id; el.style.outline='2px solid #FF7043';
+}
+function crsDndDrop(zoneId, event) {
+  event.preventDefault();
+  document.getElementById('crs-zone-'+zoneId).classList.remove('drag-over');
+  const id=crsDraggedItem||crsSelectedItem;
+  if (!id) return;
+  crsDraggedItem=null; crsSelectedItem=null;
+  crsDndPlace(id, zoneId);
+}
+function crsDndPlace(itemId, zoneId) {
+  const g=GRADES.find(x=>x.id===crsState.currentGrade);
+  const m=g.modules[crsState.currentModule];
+  const step=m.steps[crsState.currentStep];
+  const item=step.items.find(i=>i.id===itemId); if(!item) return;
+  if (crsState.dndPlacements[itemId]) { const prev=document.getElementById('crs-placed-'+itemId); if(prev) prev.remove(); }
+  crsState.dndPlacements[itemId]=zoneId;
+  document.getElementById('crs-item-'+itemId).classList.add('placed');
+  const zone=step.zones.find(z=>z.id===zoneId);
+  const placed=document.createElement('div');
+  placed.className='crs-placed-item'; placed.id='crs-placed-'+itemId;
+  placed.innerHTML=item.label+' <span style="font-size:.68rem;opacity:.6">✕</span>';
+  placed.style.background=zone.bg; placed.style.borderColor=zone.color; placed.style.color=zone.color;
+  placed.onclick=()=>{ placed.remove(); delete crsState.dndPlacements[itemId]; document.getElementById('crs-item-'+itemId).classList.remove('placed'); document.getElementById('crs-item-'+itemId).style.outline='none'; };
+  document.getElementById('crs-zone-items-'+zoneId).appendChild(placed);
+}
+function crsCheckDnd() {
+  const g=GRADES.find(x=>x.id===crsState.currentGrade);
+  const m=g.modules[crsState.currentModule];
+  const step=m.steps[crsState.currentStep];
+  let correct=0, total=step.items.length;
+  step.items.forEach(it=>{ const p=document.getElementById('crs-placed-'+it.id); if(!p) return; if(crsState.dndPlacements[it.id]===it.correct){p.classList.add('correct-place');correct++;}else p.classList.add('wrong-place'); });
+  const res=document.getElementById('crs-dnd-result'); res.style.display='block';
+  if (correct===total) { res.innerHTML=`<div style="background:#E8FFF6;border-radius:10px;padding:.9rem;color:#065F46;font-weight:700">🎉 Perfect! All ${total}/${total} correct!</div>`; crsSpawnXP('+20 XP'); crsState.xp+=20; document.getElementById('crs-footer').innerHTML=renderCrsFooter(null,null,true); document.getElementById('courseXP').textContent=crsState.xp; }
+  else res.innerHTML=`<div style="background:#FFF0EC;border-radius:10px;padding:.9rem;color:#9A3412;font-weight:700">💡 Got ${correct}/${total} right! Red items are wrong — try rearranging!</div>`;
+}
+function attachCrsListeners(step) {
+  setTimeout(()=>{
+    document.querySelectorAll('.crs-dnd-zone').forEach(z=>{
+      z.addEventListener('click',(e)=>{ if(!crsSelectedItem) return; const zid=z.id.replace('crs-zone-',''); document.getElementById('crs-item-'+crsSelectedItem).style.outline='none'; crsDndPlace(crsSelectedItem,zid); crsSelectedItem=null; });
+    });
+    if (step.kind==='atm') initCrsATM();
+    if (step.kind==='stocks') initCrsStocks();
+    if (step.kind==='budget') initCrsBudget(step);
+    if (step.kind==='business') initCrsBusiness();
+    if (step.kind==='corner-store') initCrsCornerStore();
+    if (step.kind==='savings-tracker') initCrsSavings();
+    if (step.kind==='insurance-sim') initCrsInsurance();
+  },100);
+}
+
+// ── PIGGY SIM ──
+function renderCrsPiggy() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#FFFAE8;color:#F5C842">🐷 Simulation</div>
+    <div class="crs-card-title">My Piggy Bank</div>
+    <div class="piggy-game">
+      <div class="piggy-emoji-big" id="crs-pig-icon" onclick="crsAddPiggy(1)">🐷</div>
+      <div class="piggy-amount" id="crs-pig-amt">₹ 0</div>
+      <div class="piggy-goal-txt" id="crs-pig-txt">Goal: ₹100 (new toy! 🧸)</div>
+      <div class="piggy-prog"><div class="piggy-prog-fill" id="crs-pig-fill" style="width:0%"></div></div>
+      <div class="coin-btns">
+        <button class="coin-btn" onclick="crsAddPiggy(1)">+₹1</button>
+        <button class="coin-btn" onclick="crsAddPiggy(2)">+₹2</button>
+        <button class="coin-btn" onclick="crsAddPiggy(5)">+₹5</button>
+        <button class="coin-btn" onclick="crsAddPiggy(10)">+₹10</button>
+        <button class="coin-btn" onclick="crsAddPiggy(20)">+₹20</button>
+      </div>
+      <button onclick="crsState.piggyAmount=0;crsPiggyUpdate()" style="margin-top:.8rem;background:none;border:none;color:#7A7A9A;font-size:.8rem;cursor:pointer;text-decoration:underline">Reset</button>
+    </div></div>`;
+}
+function crsAddPiggy(n) { crsState.piggyAmount=Math.min(crsState.piggyAmount+n,150); crsPiggyUpdate(); }
+function crsPiggyUpdate() {
+  const el=document.getElementById('crs-pig-amt'); if(!el) return;
+  el.textContent='₹ '+crsState.piggyAmount;
+  document.getElementById('crs-pig-fill').style.width=Math.min(crsState.piggyAmount/100*100,100)+'%';
+  const icon=document.getElementById('crs-pig-icon');
+  if (crsState.piggyAmount>=100) { document.getElementById('crs-pig-txt').textContent='🎉 You reached your goal!'; icon.textContent='🎊'; }
+  icon.style.transform='scale(.85) rotate(-8deg)'; setTimeout(()=>{if(icon)icon.style.transform='';},200);
+}
+
+// ── ATM SIM ──
+function renderCrsATM() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#FFF0EC;color:#FF7043">🏧 Simulation</div>
+    <div class="crs-card-title">ATM Simulator</div>
+    <div class="atm-body">
+      <div class="atm-header-bar">🏧 FinSmart Bank ATM</div>
+      <div class="atm-step-progress" id="crs-atm-dots"></div>
+      <div class="atm-screen-panel">
+        <div class="atm-screen-line1" id="crs-atm-l1"></div>
+        <div class="atm-big-amount" id="crs-atm-big" style="display:none"></div>
+        <div class="atm-screen-line2" id="crs-atm-l2"></div>
+      </div>
+      <div class="atm-slot"></div>
+      <div class="atm-btns" id="crs-atm-btns"></div>
+    </div></div>`;
+}
+function initCrsATM() { crsATMData.step=0; crsATMData.balance=5000; renderCrsATMStep(); }
+function renderCrsATMStep() {
+  const s=crsATMData.steps[crsATMData.step];
+  const dots=document.getElementById('crs-atm-dots'); if(!dots) return;
+  dots.innerHTML=crsATMData.steps.map((_,i)=>`<div class="atm-sdot ${i<crsATMData.step?'done':i===crsATMData.step?'cur':''}"></div>`).join('');
+  document.getElementById('crs-atm-l1').textContent=s.msg;
+  document.getElementById('crs-atm-l2').textContent=s.sub;
+  const big=document.getElementById('crs-atm-big'); big.style.display='none';
+  if (crsATMData.step===4) { big.style.display='block'; big.textContent='Balance: ₹'+crsATMData.balance.toLocaleString('en-IN'); }
+  document.getElementById('crs-atm-btns').innerHTML=s.btns.map(b=>`<button class="atm-action-btn ${b.s}" onclick="crsATMAction('${b.a}')">${b.l}</button>`).join('');
+}
+function crsATMAction(a) {
+  if (a==='next') crsATMData.step++;
+  else if (a==='cancel'||a==='done') { crsShowToast('ATM session ended'); initCrsATM(); return; }
+  else if (a==='withdraw') crsATMData.step=3;
+  else if (a==='balance') { crsATMData.steps[4].msg='Your current balance'; crsATMData.step=4; }
+  else if (a==='w500'||a==='w1000'||a==='w2000') { const amt={w500:500,w1000:1000,w2000:2000}[a]; crsATMData.balance-=amt; crsATMData.steps[4].msg=`₹${amt.toLocaleString('en-IN')} dispensed! 💵`; crsATMData.steps[4].sub='Please collect your cash'; crsATMData.step=4; crsShowToast('💵 ₹'+amt+' dispensed!'); }
+  else if (a==='back') crsATMData.step=2;
+  else if (a==='restart') crsATMData.step=2;
+  renderCrsATMStep();
+}
+
+// ── CORNER STORE ──
+function renderCrsCornerStore() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#E8FFF6;color:#06C98F">🏪 Simulation</div>
+    <div class="crs-card-title">Corner Store</div>
+    <div style="background:rgba(0,0,0,.03);border-radius:12px;padding:.9rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem">
+      <div style="font-weight:700">💰 Money: <span id="crs-cs-money" style="color:#FF7043;font-family:'Baloo 2',cursive;font-size:1.1rem">₹50</span></div>
+      <div style="font-weight:700">🛒 Total: <span id="crs-cs-total" style="color:#06C98F;font-family:'Baloo 2',cursive;font-size:1.1rem">₹0</span></div>
+    </div>
+    <div id="crs-cs-items" style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem"></div>
+    <div id="crs-cs-receipt" style="display:none;margin-top:.9rem;background:#F0FDF4;border:2px solid #BBF7D0;border-radius:12px;padding:.9rem"></div>
+    <button id="crs-cs-buy" onclick="crsCsBuy()" style="display:none;margin-top:.9rem;width:100%;padding:.7rem;background:linear-gradient(135deg,#06C98F,#059669);color:white;border:none;border-radius:999px;font-weight:800;font-size:.9rem;cursor:pointer">🛒 Buy Items & Get Receipt</button>
+  </div>`;
+}
+function initCrsCornerStore() { crsCsBasket={}; crsCsUpdate(); }
+function crsCsToggle(id) { crsCsBasket[id]?delete crsCsBasket[id]:(crsCsBasket[id]=true); crsCsUpdate(); }
+function crsCsUpdate() {
+  const grid=document.getElementById('crs-cs-items'); if(!grid) return;
+  let total=0; Object.keys(crsCsBasket).forEach(k=>total+=crsCsItems.find(i=>i.id===k).price);
+  const el=document.getElementById('crs-cs-total'); if(el) el.textContent='₹'+total;
+  if(el) el.style.color=total>50?'#EF4444':'#06C98F';
+  const buyBtn=document.getElementById('crs-cs-buy'); if(buyBtn) buyBtn.style.display=total>0&&total<=50?'block':'none';
+  grid.innerHTML=crsCsItems.map(it=>`<div style="background:${crsCsBasket[it.id]?'#F0FDF4':'white'};border:2px solid ${crsCsBasket[it.id]?'#06C98F':'#EAEAEA'};border-radius:10px;padding:.65rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s" onclick="crsCsToggle('${it.id}')"><div><div style="font-weight:700;font-size:.84rem">${it.name}</div><div style="font-family:'Baloo 2',cursive;font-weight:800;color:#FF7043">₹${it.price}</div></div><div style="font-size:1.2rem">${crsCsBasket[it.id]?'✅':'➕'}</div></div>`).join('');
+}
+function crsCsBuy() {
+  const items=Object.keys(crsCsBasket).map(k=>crsCsItems.find(i=>i.id===k));
+  const total=items.reduce((s,i)=>s+i.price,0);
+  const rec=document.getElementById('crs-cs-receipt'); rec.style.display='block';
+  rec.innerHTML=`<div style="font-family:'Baloo 2',cursive;font-weight:800;text-align:center;margin-bottom:.5rem">🧾 RECEIPT</div>${items.map(i=>`<div style="display:flex;justify-content:space-between;font-size:.84rem;font-weight:600;padding:.18rem 0">${i.name}<span>₹${i.price}</span></div>`).join('')}<div style="border-top:2px dashed #BBF7D0;margin:.45rem 0"></div><div style="display:flex;justify-content:space-between;font-weight:800">Total<span>₹${total}</span></div><div style="display:flex;justify-content:space-between;color:#06C98F;font-weight:800">Change<span>₹${50-total}</span></div>`;
+  document.getElementById('crs-cs-buy').style.display='none';
+}
+
+// ── SAVINGS TRACKER ──
+function renderCrsSavings() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#E8F7FF;color:#3BBFFF">🚲 Simulation</div>
+    <div class="crs-card-title">Save for a Bicycle!</div>
+    <div style="text-align:center;padding:.8rem 0">
+      <div style="font-size:4.5rem;margin-bottom:.4rem" id="crs-st-icon">🚲</div>
+      <div style="color:#7A7A9A;font-size:.86rem;font-weight:600">Goal: ₹400 (new bicycle)</div>
+      <div style="font-family:'Baloo 2',cursive;font-size:2rem;font-weight:800;color:#3BBFFF;margin:.45rem 0" id="crs-st-amt">₹0</div>
+      <div class="piggy-prog"><div class="piggy-prog-fill" id="crs-st-fill" style="width:0%;background:linear-gradient(90deg,#3BBFFF,#A855F7)"></div></div>
+      <div style="font-size:.8rem;font-weight:700;color:#7A7A9A;margin-top:.4rem" id="crs-st-weeks">Week 0 of 20</div>
+      <button onclick="crsSavingsDeposit()" style="margin-top:1rem;padding:.65rem 1.8rem;background:linear-gradient(135deg,#3BBFFF,#A855F7);color:white;border:none;border-radius:999px;font-weight:800;font-size:.9rem;cursor:pointer">💰 Deposit Weekly ₹20</button>
+      <button onclick="crsSavingsReset()" style="display:block;margin:.4rem auto 0;background:none;border:none;color:#7A7A9A;font-size:.78rem;cursor:pointer;text-decoration:underline">Reset</button>
+    </div></div>`;
+}
+function initCrsSavings() { crsStWeeks=0; crsState.savingsAmount=0; crsSavingsUpdate(); }
+function crsSavingsDeposit() { if(crsState.savingsAmount>=400){crsShowToast('🎉 Goal reached!');return;} crsState.savingsAmount=Math.min(crsState.savingsAmount+20,400); crsStWeeks++; crsSavingsUpdate(); }
+function crsSavingsReset() { crsState.savingsAmount=0; crsStWeeks=0; crsSavingsUpdate(); }
+function crsSavingsUpdate() {
+  const el=document.getElementById('crs-st-amt'); if(!el) return;
+  el.textContent='₹'+crsState.savingsAmount;
+  document.getElementById('crs-st-fill').style.width=(crsState.savingsAmount/400*100)+'%';
+  document.getElementById('crs-st-weeks').textContent='Week '+crsStWeeks+' of 20';
+  if(crsState.savingsAmount>=400){document.getElementById('crs-st-icon').textContent='🎉';crsShowToast('🚲 You saved enough for the bicycle!');}
+}
+
+// ── BUDGET ──
+function renderCrsBudget(step) {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#F5EEFF;color:#A855F7">📊 Simulation</div>
+    <div class="crs-card-title">${step.title}</div>
+    <div class="budget-income-bar"><div class="budget-income-label">💰 Monthly Income</div><div class="budget-income-num">₹${step.income.toLocaleString('en-IN')}</div></div>
+    <div class="budget-remaining" id="crs-bud-rem"><div class="budget-remaining-label">Remaining</div><div class="budget-remaining-num" id="crs-bud-rem-num">₹${step.income.toLocaleString('en-IN')}</div></div>
+    <div class="budget-items-grid" id="crs-bud-grid"></div>
+    <div id="crs-bud-msg"></div>
+  </div>`;
+}
+function initCrsBudget(step) { crsState.budgetIncluded={}; step.items.filter(i=>i.essential).forEach(i=>{crsState.budgetIncluded[i.id]=true;}); renderCrsBudgetItems(step); }
+function renderCrsBudgetItems(step) {
+  const grid=document.getElementById('crs-bud-grid'); if(!grid) return;
+  let used=0; Object.keys(crsState.budgetIncluded).forEach(k=>{const it=step.items.find(i=>i.id===k);if(it)used+=it.cost;});
+  const rem=step.income-used;
+  const rn=document.getElementById('crs-bud-rem-num'); if(rn) rn.textContent=(rem<0?'-':'')+'₹'+Math.abs(rem).toLocaleString('en-IN');
+  const rw=document.getElementById('crs-bud-rem'); if(rw) rw.classList.toggle('negative',rem<0);
+  grid.innerHTML=step.items.map(it=>{const inc=crsState.budgetIncluded[it.id];return `<div class="budget-item-card" style="border-color:${inc?'#A855F7':'#eaeaea'}"><div class="budget-item-name">${it.name}${it.essential?'<span style="font-size:.68rem;background:#F5EEFF;color:#A855F7;padding:.1rem .35rem;border-radius:5px">Required</span>':''}</div><div class="budget-item-cost">₹${it.cost.toLocaleString('en-IN')}</div><button class="budget-item-toggle${inc?' included':''}" onclick="crsBudgetToggle('${it.id}')" ${it.essential?'disabled':''}>${it.essential?'✅ Included':inc?'✅ Included':'+ Include'}</button></div>`;}).join('');
+  const msg=document.getElementById('crs-bud-msg'); if(msg) msg.innerHTML=rem>=0?`<div style="background:#F0FDF4;border-radius:10px;padding:.7rem;color:#065F46;font-weight:700;margin-top:.5rem">✅ Surplus: ₹${rem.toLocaleString('en-IN')} — Great!</div>`:`<div style="background:#FFF0F0;border-radius:10px;padding:.7rem;color:#991B1B;font-weight:700;margin-top:.5rem">❌ Deficit: ₹${Math.abs(rem).toLocaleString('en-IN')} — Remove optional items!</div>`;
+}
+function crsBudgetToggle(id) { const g=GRADES.find(x=>x.id===crsState.currentGrade); const m=g.modules[crsState.currentModule]; const step=m.steps[crsState.currentStep]; crsState.budgetIncluded[id]?delete crsState.budgetIncluded[id]:(crsState.budgetIncluded[id]=true); renderCrsBudgetItems(step); }
+function renderCrsBudgetSim() { return `<div class="crs-card"><div class="crs-type-badge" style="background:#F5EEFF;color:#A855F7">📊 Budget Planner</div><div class="crs-card-title">Monthly Budget Planner</div><div style="text-align:center;padding:1.5rem;color:#7A7A9A"><div style="font-size:3.5rem">📋</div><p style="margin-top:.9rem;font-weight:600">Use the Budget Builder game in the Modules above to practise balancing a family budget with ₹10,000!</p></div></div>`; }
+
+// ── INSURANCE ──
+function renderCrsInsurance() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#FFF0F7;color:#EC4899">🛡️ Simulation</div>
+    <div class="crs-card-title">Insurance Office</div>
+    <div id="crs-ins-event" style="background:rgba(0,0,0,.03);border-radius:14px;padding:1.2rem;text-align:center;margin-bottom:1rem"></div>
+    <div style="font-weight:700;margin-bottom:.7rem">What do you do?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+      <button onclick="crsInsClaim(true)" style="padding:.9rem;background:#F0FDF4;border:2px solid #06C98F;border-radius:12px;font-weight:700;cursor:pointer;font-size:.88rem;transition:all .2s">🛡️ Claim Insurance</button>
+      <button onclick="crsInsClaim(false)" style="padding:.9rem;background:#FFF0EC;border:2px solid #FF7043;border-radius:12px;font-weight:700;cursor:pointer;font-size:.88rem;transition:all .2s">💸 Pay Out of Pocket</button>
+    </div>
+    <div id="crs-ins-result" style="margin-top:.9rem"></div>
+  </div>`;
+}
+function initCrsInsurance() { crsInsChosen=crsInsEvents[Math.floor(Math.random()*crsInsEvents.length)]; const box=document.getElementById('crs-ins-event'); if(box) box.innerHTML=`<div style="font-size:3rem">${crsInsChosen.icon}</div><div style="font-weight:800;font-size:1rem;margin-top:.5rem">${crsInsChosen.desc}</div><div style="font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;color:#EF4444;margin-top:.4rem">Bill: ₹${crsInsChosen.cost.toLocaleString('en-IN')}</div>`; }
+function crsInsClaim(claim) {
+  const ev=crsInsChosen; if(!ev) return;
+  const res=document.getElementById('crs-ins-result'); if(!res) return;
+  if(claim){res.innerHTML=`<div style="background:#E8FFF6;border-radius:12px;padding:.9rem;color:#065F46;font-weight:700">✅ Smart! Insurance covers ₹${ev.covered.toLocaleString('en-IN')}. You only pay ₹${(ev.cost-ev.covered).toLocaleString('en-IN')}. Saved ₹${ev.covered.toLocaleString('en-IN')}!</div>`;crsSpawnXP('+15 XP');crsState.xp+=15;document.getElementById('courseXP').textContent=crsState.xp;}
+  else res.innerHTML=`<div style="background:#FFF0EC;border-radius:12px;padding:.9rem;color:#9A3412;font-weight:700">💸 You paid ₹${ev.cost.toLocaleString('en-IN')}! Insurance would have saved you ₹${ev.covered.toLocaleString('en-IN')}.</div>`;
+}
+
+// ── STOCKS ──
+function renderCrsStocks() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#E8F7FF;color:#3BBFFF">📈 Simulation</div>
+    <div class="crs-card-title">Junior Stock Market</div>
+    <div class="stock-portfolio"><div class="stock-portfolio-header"><div><div class="stock-portfolio-label">VIRTUAL PORTFOLIO</div><div style="color:rgba(255,255,255,.5);font-size:.72rem">Start: ₹5,000</div></div><div><div class="stock-portfolio-label">CASH BALANCE</div><div class="stock-portfolio-val" id="crs-stock-cash">₹5,000</div></div></div></div>
+    <div class="stock-list" id="crs-stock-list"></div>
+    <div id="crs-stock-msg" style="margin-top:.7rem"></div>
+  </div>`;
+}
+function initCrsStocks() { crsStockList.forEach(s=>{s.owned=0;}); crsState.portfolioVal=5000; renderCrsStockList(); }
+function renderCrsStockList() {
+  const el=document.getElementById('crs-stock-list'); if(!el) return;
+  document.getElementById('crs-stock-cash').textContent='₹'+crsState.portfolioVal.toLocaleString('en-IN');
+  el.innerHTML=crsStockList.map(s=>`<div class="stock-row"><div style="flex:1"><div class="stock-name">${s.name}</div><div class="stock-sector">${s.sector}</div></div><div style="margin-right:.7rem"><div class="stock-price">₹${s.price}</div><div class="stock-change ${s.change>=0?'up':'down'}">${s.change>=0?'▲':'▼'}${Math.abs(s.change)}%</div></div><div style="font-size:.78rem;color:#7A7A9A;margin-right:.4rem">×${s.owned}</div><div class="stock-btns"><button class="stock-buy-btn" onclick="crsStkBuy('${s.id}')">Buy</button><button class="stock-sell-btn" onclick="crsStkSell('${s.id}')">Sell</button></div></div>`).join('');
+}
+function crsStkBuy(id) { const s=crsStockList.find(x=>x.id===id); if(crsState.portfolioVal<s.price){crsShowToast('⚠️ Not enough cash!');return;} s.owned++;crsState.portfolioVal-=s.price;crsShowToast('✅ Bought '+s.name+' for ₹'+s.price);renderCrsStockList(); }
+function crsStkSell(id) { const s=crsStockList.find(x=>x.id===id); if(!s.owned){crsShowToast('⚠️ You don\'t own any '+s.name);return;} const val=Math.round(s.price*(1+s.change/100)); s.owned--;crsState.portfolioVal+=val;crsShowToast((s.change>=0?'📈 Profit +₹':'📉 Loss: ')+(val-s.price));renderCrsStockList(); }
+
+// ── BUSINESS ──
+function renderCrsBusiness() {
+  return `<div class="crs-card"><div class="crs-type-badge" style="background:#FFF0F0;color:#EF4444">🏢 Simulation</div>
+    <div class="crs-card-title">Run My Business</div>
+    <div style="background:linear-gradient(135deg,#1E2A4A,#131B35);border-radius:12px;padding:.9rem 1.1rem;display:flex;justify-content:space-between;margin-bottom:.9rem;color:white">
+      <div><div style="color:rgba(255,255,255,.5);font-size:.72rem;font-weight:700">ROUND</div><div style="font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800" id="crs-biz-round">1 / 6</div></div>
+      <div><div style="color:rgba(255,255,255,.5);font-size:.72rem;font-weight:700">CASH</div><div style="font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;color:#34D399" id="crs-biz-cash">₹20,000</div></div>
+    </div>
+    <div id="crs-biz-question"></div>
+    <div id="crs-biz-result" style="margin-top:.7rem"></div>
+  </div>`;
+}
+function initCrsBusiness() { crsState.bizRound=0; crsState.bizCash=20000; renderCrsBizRound(); }
+function renderCrsBizRound() {
+  const el=document.getElementById('crs-biz-question'); if(!el) return;
+  document.getElementById('crs-biz-round').textContent=(crsState.bizRound+1)+' / 6';
+  document.getElementById('crs-biz-cash').textContent='₹'+crsState.bizCash.toLocaleString('en-IN');
+  if(crsState.bizRound>=crsBizDecisions.length){el.innerHTML=`<div style="text-align:center;padding:.9rem"><div style="font-size:2.8rem">🏆</div><div style="font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;margin-top:.4rem">Business Complete!</div><div style="color:#7A7A9A;margin-top:.3rem">Final Cash: <span style="color:#EF4444;font-family:'Baloo 2',cursive;font-weight:800">₹${crsState.bizCash.toLocaleString('en-IN')}</span></div><div style="margin-top:.5rem;font-weight:700;color:${crsState.bizCash>20000?'#065F46':'#991B1B'}">${crsState.bizCash>20000?'🎉 Profit! ₹'+(crsState.bizCash-20000).toLocaleString('en-IN'):'📉 Loss: ₹'+(20000-crsState.bizCash).toLocaleString('en-IN')}</div></div>`;return;}
+  const d=crsBizDecisions[crsState.bizRound];
+  el.innerHTML=`<div style="background:rgba(0,0,0,.03);border-radius:12px;padding:.9rem;margin-bottom:.7rem;font-weight:700">${d.q}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem"><button onclick="crsBizChoose(0)" style="padding:.75rem;background:white;border:2px solid #eaeaea;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='#EF4444'" onmouseout="this.style.borderColor='#eaeaea'">${d.opts[0].l}</button><button onclick="crsBizChoose(1)" style="padding:.75rem;background:white;border:2px solid #eaeaea;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;text-align:left;transition:all .2s" onmouseover="this.style.borderColor='#EF4444'" onmouseout="this.style.borderColor='#eaeaea'">${d.opts[1].l}</button></div>`;
+}
+function crsBizChoose(idx) {
+  const d=crsBizDecisions[crsState.bizRound]; const gain=d.gains[idx]; crsState.bizCash+=gain;
+  const res=document.getElementById('crs-biz-result'); if(res) res.innerHTML=`<div style="background:${gain>=0?'#E8FFF6':'#FFF0F0'};border-radius:10px;padding:.75rem;color:${gain>=0?'#065F46':'#991B1B'};font-weight:700">${d.opts[idx].e}${gain!==0?` (${gain>=0?'+':''}₹${gain.toLocaleString('en-IN')})`:''}</div>`;
+  crsState.bizRound++; document.getElementById('crs-biz-round').textContent=(crsState.bizRound+1)+' / 6'; document.getElementById('crs-biz-cash').textContent='₹'+crsState.bizCash.toLocaleString('en-IN');
+  setTimeout(()=>{ const r=document.getElementById('crs-biz-result'); if(r) r.innerHTML=''; renderCrsBizRound(); },2000);
+}
+
+function crsShowToast(msg) { const t=document.getElementById('crs-toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+function crsSpawnXP(msg) { const el=document.createElement('div'); el.className='float-xp'; el.textContent=msg; el.style.left=Math.random()*200+100+'px'; el.style.top='200px'; document.body.appendChild(el); setTimeout(()=>el.remove(),1300); }
+</script>
+</body>
+</html>
